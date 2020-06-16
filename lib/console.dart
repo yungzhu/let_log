@@ -8,28 +8,28 @@ part 'log_widget.dart';
 part 'net_widget.dart';
 
 class Console {
-  static void log(Object value, [Object detail]) {
-    _Log.add(_Type.log, value, detail);
+  static void log(Object message, [Object detail]) {
+    _Log.add(_Type.log, message, detail);
   }
 
-  static void debug(Object value, [Object detail]) {
-    _Log.add(_Type.debug, value, detail);
+  static void debug(Object message, [Object detail]) {
+    _Log.add(_Type.debug, message, detail);
   }
 
-  static void warn(Object value, [Object detail]) {
-    _Log.add(_Type.warn, value, detail);
+  static void warn(Object message, [Object detail]) {
+    _Log.add(_Type.warn, message, detail);
   }
 
-  static void error(Object value, [Object detail]) {
-    _Log.add(_Type.error, value, detail);
+  static void error(Object message, [Object detail]) {
+    _Log.add(_Type.error, message, detail);
   }
 
-  static void time(Object value) {
-    _Log.time(value);
+  static void time(Object key) {
+    _Log.time(key);
   }
 
-  static void endTime(Object value) {
-    _Log.endTime(value);
+  static void endTime(Object key) {
+    _Log.endTime(key);
   }
 
   static void clear() {
@@ -66,29 +66,38 @@ class _Log {
   static final Map<Object, Object> _map = {};
 
   final _Type type;
-  final String value;
+  final String message;
   final String detail;
-  const _Log({this.type, this.value, this.detail});
+  const _Log({this.type, this.message, this.detail});
+
+  @override
+  String toString() {
+    final StringBuffer sb = StringBuffer();
+    sb.writeln("Message: $message");
+    sb.writeln("Detail: ");
+    sb.writeln(detail);
+    return sb.toString();
+  }
 
   static void add(_Type type, Object value, Object detail) {
     list.add(_Log(
       type: type,
-      value: value?.toString(),
+      message: value?.toString(),
       detail: detail?.toString(),
     ));
     length.value++;
   }
 
-  static void time(Object value) {
-    _map[value] = DateTime.now();
+  static void time(Object key) {
+    _map[key] = DateTime.now();
   }
 
-  static void endTime(Object value) {
-    final data = _map[value];
+  static void endTime(Object key) {
+    final data = _map[key];
     if (data != null) {
-      _map.remove(value);
+      _map.remove(key);
       final use = DateTime.now().difference(data).inMilliseconds;
-      _Log.add(_Type.log, '$value: $use ms', null);
+      _Log.add(_Type.log, '$key: $use ms', null);
     }
   }
 
@@ -102,7 +111,7 @@ class _Net extends ChangeNotifier {
   static final List<_Net> list = [];
   static final ValueNotifier<int> length = ValueNotifier(0);
   static final Map<String, _Net> _map = {};
-  static const all = "all";
+  static const all = "All";
   static final List<String> types = [all];
   static final ValueNotifier<int> typeLength = ValueNotifier(1);
 
@@ -154,6 +163,7 @@ class _Net extends ChangeNotifier {
     sb.writeln("[$status] $api");
     sb.writeln("start: $start");
     sb.writeln("spend: $spend ms");
+    sb.writeln("Head: $head");
     sb.writeln("Request: $req");
     sb.writeln("Response: $res");
     return sb.toString();

@@ -37,26 +37,7 @@ class _LogWidgetState extends State<LogWidget> {
                   itemBuilder: (context, index) {
                     final item = logs[len - index - 1];
                     final color = _getColor(item.type, context);
-                    return Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "[${_getTypeString(item.type)}] ${item.value}",
-                            style: TextStyle(fontSize: 16, color: color),
-                          ),
-                          if (item.detail != null)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8),
-                              child: Text(
-                                item.detail,
-                                style: TextStyle(fontSize: 14, color: color),
-                              ),
-                            )
-                        ],
-                      ),
-                    );
+                    return _buildItem(item, color);
                   },
                   itemCount: len,
                   separatorBuilder: (context, index) {
@@ -71,6 +52,52 @@ class _LogWidgetState extends State<LogWidget> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildItem(_Log item, Color color) {
+    return InkWell(
+      onTap: () {
+        final ClipboardData data = ClipboardData(text: item.toString());
+        Clipboard.setData(data);
+        showDialog(
+          context: context,
+          barrierDismissible: true,
+          builder: (context) {
+            return const Center(
+              child: Material(
+                color: Colors.transparent,
+                child: Text(
+                  "copy success!",
+                  style: TextStyle(color: Colors.white, fontSize: 30),
+                ),
+              ),
+            );
+          },
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "[${_getTypeString(item.type)}] ${item.message}",
+              style: TextStyle(fontSize: 16, color: color),
+            ),
+            if (item.detail != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Text(
+                  item.detail,
+                  style: TextStyle(fontSize: 14, color: color.withAlpha(160)),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 20,
+                ),
+              )
+          ],
+        ),
       ),
     );
   }

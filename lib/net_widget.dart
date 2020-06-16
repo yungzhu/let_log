@@ -8,8 +8,14 @@ class NetWidget extends StatefulWidget {
 }
 
 class _NetWidgetState extends State<NetWidget> {
+  TextStyle detailStyle;
+
   @override
   Widget build(BuildContext context) {
+    detailStyle ??= TextStyle(
+      fontSize: 14,
+      color: Theme.of(context).textTheme.bodyText1.color.withAlpha(160),
+    );
     return Scaffold(
       appBar: AppBar(
         title: const Text("NetWork"),
@@ -89,6 +95,7 @@ class _NetWidgetState extends State<NetWidget> {
                         "Head: ${item.head ?? ""}",
                         maxLines: 100,
                         overflow: TextOverflow.ellipsis,
+                        style: detailStyle,
                       ),
                     ),
                   if (item.showDetail)
@@ -98,6 +105,7 @@ class _NetWidgetState extends State<NetWidget> {
                         "Request: ${item.req ?? ""}",
                         maxLines: 100,
                         overflow: TextOverflow.ellipsis,
+                        style: detailStyle,
                       ),
                     ),
                   if (item.showDetail)
@@ -107,6 +115,7 @@ class _NetWidgetState extends State<NetWidget> {
                         "Response: ${item.res ?? ""}",
                         maxLines: 100,
                         overflow: TextOverflow.ellipsis,
+                        style: detailStyle,
                       ),
                     ),
                   Padding(
@@ -147,19 +156,20 @@ class _NetWidgetState extends State<NetWidget> {
                 final ClipboardData data = ClipboardData(text: item.toString());
                 Clipboard.setData(data);
                 showDialog(
-                    context: context,
-                    barrierDismissible: true,
-                    builder: (context) {
-                      return const Center(
-                        child: Material(
-                          color: Colors.transparent,
-                          child: Text(
-                            "copy success!",
-                            style: TextStyle(color: Colors.white, fontSize: 30),
-                          ),
+                  context: context,
+                  barrierDismissible: true,
+                  builder: (context) {
+                    return const Center(
+                      child: Material(
+                        color: Colors.transparent,
+                        child: Text(
+                          "copy success!",
+                          style: TextStyle(color: Colors.white, fontSize: 30),
                         ),
-                      );
-                    });
+                      ),
+                    );
+                  },
+                );
               },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
