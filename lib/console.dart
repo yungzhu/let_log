@@ -1,11 +1,19 @@
 library console;
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 part 'log_widget.dart';
+part 'net_widget.dart';
 
 class Console {
   static void log(Object value, [Object detail]) {
     _Log.add(_Type.log, value, detail);
+  }
+
+  static void debug(Object value, [Object detail]) {
+    _Log.add(_Type.debug, value, detail);
   }
 
   static void warn(Object value, [Object detail]) {
@@ -28,8 +36,13 @@ class Console {
     _Log.clear();
   }
 
-  static void net(String api, {Object data}) {
-    _Net.request(api, data);
+  static void net(
+    String api, {
+    String type = "Http",
+    Object data,
+    Object head,
+  }) {
+    _Net.request(api, type, data, head);
   }
 
   static void endNet(String api, {int status = 200, Object data}) {
@@ -41,24 +54,28 @@ class Console {
   }
 
   static Widget get netWidget {
-    return const LogWidget();
+    return const NetWidget();
   }
 }
 
-enum _Type { log, warn, error, time }
+enum _Type { log, debug, warn, error }
 
 class _Log {
-  static const List<_Log> list = [];
+  static final List<_Log> list = [];
   static final ValueNotifier<int> length = ValueNotifier(0);
-  static const Map<Object, Object> _map = {};
+  static final Map<Object, Object> _map = {};
 
   final _Type type;
-  final Object value;
-  final Object detail;
+  final String value;
+  final String detail;
   const _Log({this.type, this.value, this.detail});
 
   static void add(_Type type, Object value, Object detail) {
-    list.add(_Log(type: type, value: value, detail: detail));
+    list.add(_Log(
+      type: type,
+      value: value?.toString(),
+      detail: detail?.toString(),
+    ));
     length.value++;
   }
 
@@ -70,46 +87,105 @@ class _Log {
     final data = _map[value];
     if (data != null) {
       _map.remove(value);
-      final use = DateTime.now().compareTo(data);
-      _Log.add(_Type.time, '$value: $use ms', null);
+      final use = DateTime.now().difference(data).inMilliseconds;
+      _Log.add(_Type.log, '$value: $use ms', null);
     }
   }
 
   static void clear() {
     list.clear();
+    length.value = 0;
   }
 }
 
-class _Net {
-  static const List<_Net> list = [];
+class _Net extends ChangeNotifier {
+  static final List<_Net> list = [];
   static final ValueNotifier<int> length = ValueNotifier(0);
-  static const Map<String, _Net> _map = {};
+  static final Map<String, _Net> _map = {};
+  static const all = "all";
+  static final List<String> types = [all];
+  static final ValueNotifier<int> typeLength = ValueNotifier(1);
 
   final String api;
-  final Object req;
+  final String type;
+  final String req;
+  final String head;
   final DateTime start;
-  int status = 200;
-  int useTime = 0;
-  Object res;
-  _Net({this.api, this.req, this.start, this.res, this.useTime});
+  int status = 100;
+  int spend = 0;
+  String res;
+  bool showDetail = false;
 
-  static void request(String api, Object data) {
-    final net = _Net(api: api, req: data, start: DateTime.now());
+  _Net({
+    this.api,
+    this.type,
+    this.req,
+    this.head,
+    this.start,
+    this.res,
+    this.spend,
+  });
+
+  int getReqSize() {
+    if (req != null && req.isNotEmpty) {
+      try {
+        return utf8.encode(req).length;
+      } catch (e) {
+        // print(e);
+      }
+    }
+    return 0;
+  }
+
+  int getResSize() {
+    if (res != null && res.isNotEmpty) {
+      try {
+        return utf8.encode(res).length;
+      } catch (e) {
+        // print(e);
+      }
+    }
+    return 0;
+  }
+
+  @override
+  String toString() {
+    final StringBuffer sb = StringBuffer();
+    sb.writeln("[$status] $api");
+    sb.writeln("start: $start");
+    sb.writeln("spend: $spend ms");
+    sb.writeln("Request: $req");
+    sb.writeln("Response: $res");
+    return sb.toString();
+  }
+
+  static void request(String api, String type, Object data, Object head) {
+    final net = _Net(
+      api: api,
+      type: type,
+      req: data?.toString(),
+      head: head?.toString(),
+      start: DateTime.now(),
+    );
     list.add(net);
     _map[api] = net;
+    if (type != null && type != "" && !types.contains(type)) {
+      types.add(type);
+      typeLength.value++;
+    }
     length.value++;
   }
 
   static void response(String api, int status, Object data) {
-    final data = _map[api];
-    if (data != null) {
-      _map.remove(data);
-      data.useTime = DateTime.now().compareTo(data.start);
-      data.status = status;
-      data.res = data;
+    final net = _map[api];
+    if (net != null) {
+      _map.remove(net);
+      net.spend = DateTime.now().difference(net.start).inMilliseconds;
+      net.status = status;
+      net.res = data?.toString();
       length.notifyListeners();
     } else {
-      final net = _Net(api: api, res: data, start: DateTime.now());
+      final net = _Net(api: api, res: data?.toString(), start: DateTime.now());
       list.add(net);
       length.value++;
     }
