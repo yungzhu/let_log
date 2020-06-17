@@ -20,59 +20,44 @@ class _LogWidgetState extends State<LogWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Logger"),
-        elevation: 0,
-        actions: [
-          FlatButton(
-            onPressed: _Log.clear,
-            child: Text(
-              "clear",
-              style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
-            ),
-          )
-        ],
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          _buildTools(),
-          Expanded(
-            child: ValueListenableBuilder<int>(
-              valueListenable: _Log.length,
-              builder: (context, value, child) {
-                List<_Log> logs = _Log.list;
-                if (_selectTypes.length < 4 || _keyword.isNotEmpty) {
-                  logs = _Log.list.where((test) {
-                    return _selectTypes.contains(test.type) &&
-                        test.contains(_keyword);
-                  }).toList();
-                }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        _buildTools(),
+        Expanded(
+          child: ValueListenableBuilder<int>(
+            valueListenable: _Log.length,
+            builder: (context, value, child) {
+              List<_Log> logs = _Log.list;
+              if (_selectTypes.length < 4 || _keyword.isNotEmpty) {
+                logs = _Log.list.where((test) {
+                  return _selectTypes.contains(test.type) &&
+                      test.contains(_keyword);
+                }).toList();
+              }
 
-                final len = logs.length;
-                return ListView.separated(
-                  itemBuilder: (context, index) {
-                    final item = logs[len - index - 1];
-                    final color = _getColor(item.type, context);
-                    final messageStyle = TextStyle(fontSize: 14, color: color);
-                    final detailStyle = TextStyle(fontSize: 14, color: color);
-                    return _buildItem(item, messageStyle, detailStyle);
-                  },
-                  itemCount: len,
-                  separatorBuilder: (context, index) {
-                    return const Divider(
-                      height: 10,
-                      thickness: 0.5,
-                      color: Color(0xFFE0E0E0),
-                    );
-                  },
-                );
-              },
-            ),
+              final len = logs.length;
+              return ListView.separated(
+                itemBuilder: (context, index) {
+                  final item = logs[len - index - 1];
+                  final color = _getColor(item.type, context);
+                  final messageStyle = TextStyle(fontSize: 14, color: color);
+                  final detailStyle = TextStyle(fontSize: 14, color: color);
+                  return _buildItem(item, messageStyle, detailStyle);
+                },
+                itemCount: len,
+                separatorBuilder: (context, index) {
+                  return const Divider(
+                    height: 10,
+                    thickness: 0.5,
+                    color: Color(0xFFE0E0E0),
+                  );
+                },
+              );
+            },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -171,6 +156,10 @@ class _LogWidgetState extends State<LogWidget> {
                 spacing: 10,
                 children: arr,
               ),
+            ),
+            const IconButton(
+              icon: Icon(Icons.clear),
+              onPressed: _Log.clear,
             ),
             IconButton(
               icon: _keyword.isEmpty

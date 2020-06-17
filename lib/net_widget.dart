@@ -20,64 +20,49 @@ class _NetWidgetState extends State<NetWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("NetWork"),
-        elevation: 0,
-        actions: [
-          FlatButton(
-            onPressed: _Net.clear,
-            child: Text(
-              "clear",
-              style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
-            ),
-          )
-        ],
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          ValueListenableBuilder<int>(
-            valueListenable: _Net.typeLength,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        ValueListenableBuilder<int>(
+          valueListenable: _Net.typeLength,
+          builder: (context, value, child) {
+            return _buildTools();
+          },
+        ),
+        Expanded(
+          child: ValueListenableBuilder<int>(
+            valueListenable: _Net.length,
             builder: (context, value, child) {
-              return _buildTools();
+              List<_Net> logs = _Net.list;
+              if (!_selectTypes.contains(_Net.all)) {
+                logs = _Net.list.where((test) {
+                  return _selectTypes.contains(test.type) &&
+                      test.contains(_keyword);
+                }).toList();
+              } else if (_keyword.isNotEmpty) {
+                logs = _Net.list.where((test) {
+                  return test.contains(_keyword);
+                }).toList();
+              }
+
+              final len = logs.length;
+              return ListView.separated(
+                itemBuilder: (context, index) {
+                  return _buildItem(logs[len - index - 1], context);
+                },
+                itemCount: len,
+                separatorBuilder: (context, index) {
+                  return const Divider(
+                    height: 10,
+                    thickness: 0.5,
+                    color: Color(0xFFE0E0E0),
+                  );
+                },
+              );
             },
           ),
-          Expanded(
-            child: ValueListenableBuilder<int>(
-              valueListenable: _Net.length,
-              builder: (context, value, child) {
-                List<_Net> logs = _Net.list;
-                if (!_selectTypes.contains(_Net.all)) {
-                  logs = _Net.list.where((test) {
-                    return _selectTypes.contains(test.type) &&
-                        test.contains(_keyword);
-                  }).toList();
-                } else if (_keyword.isNotEmpty) {
-                  logs = _Net.list.where((test) {
-                    return test.contains(_keyword);
-                  }).toList();
-                }
-
-                final len = logs.length;
-                return ListView.separated(
-                  itemBuilder: (context, index) {
-                    return _buildItem(logs[len - index - 1], context);
-                  },
-                  itemCount: len,
-                  separatorBuilder: (context, index) {
-                    return const Divider(
-                      height: 10,
-                      thickness: 0.5,
-                      color: Color(0xFFE0E0E0),
-                    );
-                  },
-                );
-              },
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -245,6 +230,10 @@ class _NetWidgetState extends State<NetWidget> {
                 spacing: 10,
                 children: arr,
               ),
+            ),
+            const IconButton(
+              icon: Icon(Icons.clear),
+              onPressed: _Net.clear,
             ),
             IconButton(
               icon: _keyword.isEmpty

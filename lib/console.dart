@@ -22,7 +22,30 @@ String _getTabName(int index) {
   return _typeNames[index].replaceAll(_tabReg, "");
 }
 
-class Console {
+class Console extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const TabBar(
+            tabs: [
+              Tab(child: Text("Log")),
+              Tab(child: Text("Net")),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            Console.logWidget,
+            Console.netWidget,
+          ],
+        ),
+      ),
+    );
+  }
+
   static void setNames({
     String log,
     String debug,
@@ -257,6 +280,7 @@ class _Net extends ChangeNotifier {
       length.notifyListeners();
     } else {
       net = _Net(api: api, res: data?.toString(), start: DateTime.now());
+      net.status = status;
       list.add(net);
       length.value++;
     }

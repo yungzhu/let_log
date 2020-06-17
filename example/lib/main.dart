@@ -28,7 +28,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     _test(null);
-    // Timer.periodic(const Duration(seconds: 5), _test);
+    Timer.periodic(const Duration(seconds: 5), _test);
     super.initState();
   }
 
@@ -41,8 +41,8 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     Console.error("this is error",
-        "Console.error('this is a error messagethis is a error messagethis is a error messagethis is a error messagethis is a error messagethis is a error message');");
-    Console.warn("this is warn", "Console.warn('this is a error message');");
+        "Console.error('this is a error message this is a error message this is a error message this is a error message this is a error message this is a error message');");
+    Console.warn("this is warn", "Console.warn('this is a warning message');");
     Console.debug("this is debug", "Console.debug('this is a debug message');");
     Console.time("timeTest");
     Console.endTime("timeTest");
@@ -92,11 +92,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return PageView(
-      children: [
-        Console.logWidget,
-        Console.netWidget,
-      ],
-    );
+    return Console();
   }
 }
