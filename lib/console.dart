@@ -36,10 +36,10 @@ class Console extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
-            Console.logWidget,
-            Console.netWidget,
+            LogWidget(),
+            NetWidget(),
           ],
         ),
       ),
@@ -64,30 +64,32 @@ class Console extends StatelessWidget {
     ];
   }
 
+  static bool enabled = true;
+
   static void log(Object message, [Object detail]) {
-    _Log.add(_Type.log, message, detail);
+    if (enabled) _Log.add(_Type.log, message, detail);
   }
 
   static void debug(Object message, [Object detail]) {
-    _Log.add(_Type.debug, message, detail);
+    if (enabled) _Log.add(_Type.debug, message, detail);
   }
 
   static void warn(Object message, [Object detail]) {
-    _Log.add(_Type.warn, message, detail);
+    if (enabled) _Log.add(_Type.warn, message, detail);
   }
 
   static void error(Object message, [Object detail]) {
-    _Log.add(_Type.error, message, detail);
+    if (enabled) _Log.add(_Type.error, message, detail);
   }
 
   static void time(Object key) {
     assert(key != null);
-    _Log.time(key);
+    if (enabled) _Log.time(key);
   }
 
   static void endTime(Object key) {
     assert(key != null);
-    _Log.endTime(key);
+    if (enabled) _Log.endTime(key);
   }
 
   static void clear() {
@@ -101,19 +103,11 @@ class Console extends StatelessWidget {
     Object head,
   }) {
     assert(api != null);
-    _Net.request(api, type, data, head);
+    if (enabled) _Net.request(api, type, data, head);
   }
 
   static void endNet(String api, {int status = 200, Object data}) {
-    _Net.response(api, status, data);
-  }
-
-  static Widget get logWidget {
-    return const LogWidget();
-  }
-
-  static Widget get netWidget {
-    return const NetWidget();
+    if (enabled) _Net.response(api, status, data);
   }
 }
 
