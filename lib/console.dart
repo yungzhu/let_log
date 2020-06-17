@@ -9,16 +9,15 @@ part 'net_widget.dart';
 
 enum _Type { log, debug, warn, error }
 final RegExp _tabReg = RegExp(r"\[|\]");
-List<String> _typeNames = ["😄", "🐛", "❗", "❌", "⬆️", "⬇️"];
-
-// List<String> _typeNames = [
-//   "[Log]",
-//   "[Debug]",
-//   "[Warn]",
-//   "[Error]",
-//   "[Request]",
-//   "[Response]"
-// ];
+// List<String> _typeNames = ["😄", "🐛", "❗", "❌", "⬆️", "⬇️"];
+List<String> _typeNames = [
+  "[Log]",
+  "[Debug]",
+  "[Warn]",
+  "[Error]",
+  "[Req]",
+  "[Res]"
+];
 String _getTabName(int index) {
   return _typeNames[index].replaceAll(_tabReg, "");
 }
@@ -37,8 +36,8 @@ class Console {
       debug ?? "[Debug]",
       warn ?? "[Warn]",
       error ?? "[Error]",
-      request ?? "[Request]",
-      response ?? "[Response]",
+      request ?? "[Req]",
+      response ?? "[Res]",
     ];
   }
 
