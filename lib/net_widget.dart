@@ -53,7 +53,7 @@ class _NetWidgetState extends State<NetWidget> {
                     return _selectTypes.contains(test.type) &&
                         test.contains(_keyword);
                   }).toList();
-                } else if (_keyword != null && _keyword.isNotEmpty) {
+                } else if (_keyword.isNotEmpty) {
                   logs = _Net.list.where((test) {
                     return test.contains(_keyword);
                   }).toList();
@@ -235,6 +235,9 @@ class _NetWidgetState extends State<NetWidget> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 5, 0, 5),
       child: AnimatedCrossFade(
+        crossFadeState:
+            _showSearch ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+        duration: const Duration(milliseconds: 300),
         firstChild: Row(
           children: [
             Expanded(
@@ -244,7 +247,9 @@ class _NetWidgetState extends State<NetWidget> {
               ),
             ),
             IconButton(
-              icon: const Icon(Icons.search),
+              icon: _keyword.isEmpty
+                  ? const Icon(Icons.search)
+                  : const Icon(Icons.filter_1),
               onPressed: () {
                 _showSearch = true;
                 setState(() {});
@@ -276,9 +281,6 @@ class _NetWidgetState extends State<NetWidget> {
             ),
           ],
         ),
-        crossFadeState:
-            _showSearch ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-        duration: const Duration(milliseconds: 200),
       ),
     );
   }

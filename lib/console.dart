@@ -107,7 +107,7 @@ class _Log {
   }
 
   bool contains(String keyword) {
-    if (keyword == null || keyword.isEmpty) return true;
+    if (keyword.isEmpty) return true;
     return message != null && message.contains(keyword) ||
         detail != null && detail.contains(keyword);
   }
@@ -210,7 +210,7 @@ class _Net extends ChangeNotifier {
   }
 
   bool contains(String keyword) {
-    if (keyword == null || keyword.isEmpty) return true;
+    if (keyword.isEmpty) return true;
     return api.contains(keyword) ||
         req != null && req.contains(keyword) ||
         res != null && res.contains(keyword);

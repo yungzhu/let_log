@@ -42,9 +42,8 @@ class _LogWidgetState extends State<LogWidget> {
             child: ValueListenableBuilder<int>(
               valueListenable: _Log.length,
               builder: (context, value, child) {
-                final bool hasKeyWord = _keyword != null && _keyword.isNotEmpty;
                 List<_Log> logs = _Log.list;
-                if (_selectTypes.length < 4 || hasKeyWord) {
+                if (_selectTypes.length < 4 || _keyword.isNotEmpty) {
                   logs = _Log.list.where((test) {
                     return _selectTypes.contains(test.type) &&
                         test.contains(_keyword);
@@ -162,6 +161,9 @@ class _LogWidgetState extends State<LogWidget> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 5, 0, 5),
       child: AnimatedCrossFade(
+        crossFadeState:
+            _showSearch ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+        duration: const Duration(milliseconds: 300),
         firstChild: Row(
           children: [
             Expanded(
@@ -171,7 +173,9 @@ class _LogWidgetState extends State<LogWidget> {
               ),
             ),
             IconButton(
-              icon: const Icon(Icons.search),
+              icon: _keyword.isEmpty
+                  ? const Icon(Icons.search)
+                  : const Icon(Icons.filter_1),
               onPressed: () {
                 _showSearch = true;
                 setState(() {});
@@ -203,9 +207,6 @@ class _LogWidgetState extends State<LogWidget> {
             ),
           ],
         ),
-        crossFadeState:
-            _showSearch ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-        duration: const Duration(milliseconds: 200),
       ),
     );
   }
