@@ -68,12 +68,14 @@ class _Log {
   final _Type type;
   final String message;
   final String detail;
-  const _Log({this.type, this.message, this.detail});
+  final DateTime start;
+  const _Log({this.type, this.message, this.detail, this.start});
 
   @override
   String toString() {
     final StringBuffer sb = StringBuffer();
     sb.writeln("Message: $message");
+    sb.writeln("Time: $start");
     sb.writeln("Detail: ");
     sb.writeln(detail);
     return sb.toString();
@@ -84,6 +86,7 @@ class _Log {
       type: type,
       message: value?.toString(),
       detail: detail?.toString(),
+      start: DateTime.now(),
     ));
     length.value++;
   }
@@ -103,15 +106,16 @@ class _Log {
 
   static void clear() {
     list.clear();
+    _map.clear();
     length.value = 0;
   }
 }
 
 class _Net extends ChangeNotifier {
+  static const all = "All";
   static final List<_Net> list = [];
   static final ValueNotifier<int> length = ValueNotifier(0);
   static final Map<String, _Net> _map = {};
-  static const all = "All";
   static final List<String> types = [all];
   static final ValueNotifier<int> typeLength = ValueNotifier(1);
 
@@ -124,6 +128,8 @@ class _Net extends ChangeNotifier {
   int spend = 0;
   String res;
   bool showDetail = false;
+  int _reqSize = -1;
+  int _resSize = -1;
 
   _Net({
     this.api,
@@ -136,9 +142,10 @@ class _Net extends ChangeNotifier {
   });
 
   int getReqSize() {
+    if (_reqSize > -1) return _reqSize;
     if (req != null && req.isNotEmpty) {
       try {
-        return utf8.encode(req).length;
+        return _reqSize = utf8.encode(req).length;
       } catch (e) {
         // print(e);
       }
@@ -147,9 +154,10 @@ class _Net extends ChangeNotifier {
   }
 
   int getResSize() {
+    if (_resSize > -1) return _resSize;
     if (res != null && res.isNotEmpty) {
       try {
-        return utf8.encode(res).length;
+        return _resSize = utf8.encode(res).length;
       } catch (e) {
         // print(e);
       }
@@ -202,7 +210,8 @@ class _Net extends ChangeNotifier {
   }
 
   static void clear() {
-    _map.clear();
     list.clear();
+    _map.clear();
+    length.value = 0;
   }
 }

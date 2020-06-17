@@ -8,22 +8,19 @@ class NetWidget extends StatefulWidget {
 }
 
 class _NetWidgetState extends State<NetWidget> {
-  TextStyle detailStyle;
-
   @override
   Widget build(BuildContext context) {
-    detailStyle ??= TextStyle(
-      fontSize: 14,
-      color: Theme.of(context).textTheme.bodyText1.color.withAlpha(160),
-    );
     return Scaffold(
       appBar: AppBar(
         title: const Text("NetWork"),
         elevation: 0,
-        actions: const [
+        actions: [
           FlatButton(
             onPressed: _Net.clear,
-            child: Text("clear"),
+            child: Text(
+              "clear",
+              style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
+            ),
           )
         ],
       ),
@@ -57,7 +54,7 @@ class _NetWidgetState extends State<NetWidget> {
                     return const Divider(
                       height: 10,
                       thickness: 0.5,
-                      color: Colors.grey,
+                      color: Color(0xFFE0E0E0),
                     );
                   },
                 );
@@ -95,7 +92,7 @@ class _NetWidgetState extends State<NetWidget> {
                         "Head: ${item.head ?? ""}",
                         maxLines: 100,
                         overflow: TextOverflow.ellipsis,
-                        style: detailStyle,
+                        style: const TextStyle(fontSize: 14),
                       ),
                     ),
                   if (item.showDetail)
@@ -105,7 +102,7 @@ class _NetWidgetState extends State<NetWidget> {
                         "Request: ${item.req ?? ""}",
                         maxLines: 100,
                         overflow: TextOverflow.ellipsis,
-                        style: detailStyle,
+                        style: const TextStyle(fontSize: 14),
                       ),
                     ),
                   if (item.showDetail)
@@ -115,7 +112,7 @@ class _NetWidgetState extends State<NetWidget> {
                         "Response: ${item.res ?? ""}",
                         maxLines: 100,
                         overflow: TextOverflow.ellipsis,
-                        style: detailStyle,
+                        style: const TextStyle(fontSize: 14),
                       ),
                     ),
                   Padding(

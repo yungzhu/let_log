@@ -8,16 +8,25 @@ class LogWidget extends StatefulWidget {
 }
 
 class _LogWidgetState extends State<LogWidget> {
+  static final _tyeMap = {
+    _Type.log: "Log",
+    _Type.debug: "Debug",
+    _Type.warn: "Warn",
+    _Type.error: "Error"
+  };
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Logger"),
         elevation: 0,
-        actions: const [
+        actions: [
           FlatButton(
             onPressed: _Log.clear,
-            child: Text("clear"),
+            child: Text(
+              "clear",
+              style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
+            ),
           )
         ],
       ),
@@ -37,14 +46,16 @@ class _LogWidgetState extends State<LogWidget> {
                   itemBuilder: (context, index) {
                     final item = logs[len - index - 1];
                     final color = _getColor(item.type, context);
-                    return _buildItem(item, color);
+                    final messageStyle = TextStyle(fontSize: 14, color: color);
+                    final detailStyle = TextStyle(fontSize: 14, color: color);
+                    return _buildItem(item, messageStyle, detailStyle);
                   },
                   itemCount: len,
                   separatorBuilder: (context, index) {
                     return const Divider(
                       height: 10,
                       thickness: 0.5,
-                      color: Colors.grey,
+                      color: Color(0xFFE0E0E0),
                     );
                   },
                 );
@@ -56,7 +67,7 @@ class _LogWidgetState extends State<LogWidget> {
     );
   }
 
-  Widget _buildItem(_Log item, Color color) {
+  Widget _buildItem(_Log item, TextStyle messageStyle, TextStyle detailStyle) {
     return InkWell(
       onTap: () {
         final ClipboardData data = ClipboardData(text: item.toString());
@@ -83,15 +94,15 @@ class _LogWidgetState extends State<LogWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "[${_getTypeString(item.type)}] ${item.message}",
-              style: TextStyle(fontSize: 16, color: color),
+              "[${_tyeMap[item.type]}] ${item.message} (${item.start.hour}:${item.start.minute}:${item.start.second}:${item.start.millisecond})",
+              style: messageStyle,
             ),
             if (item.detail != null)
               Padding(
                 padding: const EdgeInsets.only(top: 8),
                 child: Text(
                   item.detail,
-                  style: TextStyle(fontSize: 14, color: color.withAlpha(160)),
+                  style: detailStyle,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 20,
                 ),
@@ -107,7 +118,7 @@ class _LogWidgetState extends State<LogWidget> {
       case _Type.debug:
         return Colors.blue;
       case _Type.warn:
-        return Colors.yellow;
+        return const Color(0xFFF57F17);
       case _Type.error:
         return Colors.red;
       default:
@@ -127,7 +138,7 @@ class _LogWidgetState extends State<LogWidget> {
     _Type.values.forEach((f) {
       arr.add(
         ChoiceChip(
-          label: Text(_getTypeString(f)),
+          label: Text(_tyeMap[f]),
           selected: _selectTypes.contains(f),
           onSelected: (value) {
             _selectTypes.contains(f)
@@ -152,9 +163,5 @@ class _LogWidgetState extends State<LogWidget> {
         ],
       ),
     );
-  }
-
-  String _getTypeString(_Type type) {
-    return type.toString().replaceFirst("_Type.", "");
   }
 }
