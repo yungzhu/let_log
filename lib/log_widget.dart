@@ -8,12 +8,6 @@ class LogWidget extends StatefulWidget {
 }
 
 class _LogWidgetState extends State<LogWidget> {
-  static final _tyeMap = {
-    _Type.log: "Log",
-    _Type.debug: "Debug",
-    _Type.warn: "Warn",
-    _Type.error: "Error"
-  };
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,7 +88,7 @@ class _LogWidgetState extends State<LogWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "[${_tyeMap[item.type]}] ${item.message} (${item.start.hour}:${item.start.minute}:${item.start.second}:${item.start.millisecond})",
+              "${item.typeName} ${item.message} (${item.start.hour}:${item.start.minute}:${item.start.second}:${item.start.millisecond})",
               style: messageStyle,
             ),
             if (item.detail != null)
@@ -138,7 +132,7 @@ class _LogWidgetState extends State<LogWidget> {
     _Type.values.forEach((f) {
       arr.add(
         ChoiceChip(
-          label: Text(_tyeMap[f]),
+          label: Text(_getTabName(f.index)),
           selected: _selectTypes.contains(f),
           onSelected: (value) {
             _selectTypes.contains(f)

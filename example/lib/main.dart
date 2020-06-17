@@ -34,13 +34,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _test(_) {
     try {
-      var aa = {};
+      final aa = {};
       aa["aaa"]["sdd"] = 10;
     } catch (a, e) {
       Console.error(a, e);
     }
 
-    Console.error("this is error", "Console.error('this is a error message');");
+    Console.error("this is error",
+        "Console.error('this is a error messagethis is a error messagethis is a error messagethis is a error messagethis is a error messagethis is a error message');");
     Console.warn("this is warn", "Console.warn('this is a error message');");
     Console.debug("this is debug", "Console.debug('this is a debug message');");
     Console.time("timeTest");

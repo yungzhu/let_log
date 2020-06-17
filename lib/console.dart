@@ -7,7 +7,41 @@ import 'package:flutter/services.dart';
 part 'log_widget.dart';
 part 'net_widget.dart';
 
+enum _Type { log, debug, warn, error }
+final RegExp _tabReg = RegExp(r"\[|\]");
+List<String> _typeNames = ["😄", "🐛", "❗", "❌", "⬆️", "⬇️"];
+
+// List<String> _typeNames = [
+//   "[Log]",
+//   "[Debug]",
+//   "[Warn]",
+//   "[Error]",
+//   "[Request]",
+//   "[Response]"
+// ];
+String _getTabName(int index) {
+  return _typeNames[index].replaceAll(_tabReg, "");
+}
+
 class Console {
+  static void setNames({
+    String log,
+    String debug,
+    String warn,
+    String error,
+    String request,
+    String response,
+  }) {
+    _typeNames = [
+      log ?? "[Log]",
+      debug ?? "[Debug]",
+      warn ?? "[Warn]",
+      error ?? "[Error]",
+      request ?? "[Request]",
+      response ?? "[Response]",
+    ];
+  }
+
   static void log(Object message, [Object detail]) {
     _Log.add(_Type.log, message, detail);
   }
@@ -58,8 +92,6 @@ class Console {
   }
 }
 
-enum _Type { log, debug, warn, error }
-
 class _Log {
   static final List<_Log> list = [];
   static final ValueNotifier<int> length = ValueNotifier(0);
@@ -70,6 +102,10 @@ class _Log {
   final String detail;
   final DateTime start;
   const _Log({this.type, this.message, this.detail, this.start});
+
+  String get typeName {
+    return _typeNames[type.index];
+  }
 
   @override
   String toString() {
@@ -82,13 +118,16 @@ class _Log {
   }
 
   static void add(_Type type, Object value, Object detail) {
-    list.add(_Log(
+    final log = _Log(
       type: type,
       message: value?.toString(),
       detail: detail?.toString(),
       start: DateTime.now(),
-    ));
+    );
+    list.add(log);
     length.value++;
+    debugPrint(
+        "${log.typeName} ${log.message}${log.detail == null ? '' : ' : ${log.detail}'}");
   }
 
   static void time(Object key) {
@@ -192,10 +231,12 @@ class _Net extends ChangeNotifier {
       typeLength.value++;
     }
     length.value++;
+    debugPrint(
+        "${_typeNames[4]} ${net.api}${net.req == null ? '' : ' : ${net.req}'}");
   }
 
   static void response(String api, int status, Object data) {
-    final net = _map[api];
+    _Net net = _map[api];
     if (net != null) {
       _map.remove(net);
       net.spend = DateTime.now().difference(net.start).inMilliseconds;
@@ -203,10 +244,12 @@ class _Net extends ChangeNotifier {
       net.res = data?.toString();
       length.notifyListeners();
     } else {
-      final net = _Net(api: api, res: data?.toString(), start: DateTime.now());
+      net = _Net(api: api, res: data?.toString(), start: DateTime.now());
       list.add(net);
       length.value++;
     }
+    debugPrint(
+        "${_typeNames[5]} ${net.api}${net.res == null ? '' : ' : ${net.res}'}");
   }
 
   static void clear() {
