@@ -81,10 +81,12 @@ class Console extends StatelessWidget {
   }
 
   static void time(Object key) {
+    assert(key != null);
     _Log.time(key);
   }
 
   static void endTime(Object key) {
+    assert(key != null);
     _Log.endTime(key);
   }
 
@@ -98,6 +100,7 @@ class Console extends StatelessWidget {
     Object data,
     Object head,
   }) {
+    assert(api != null);
     _Net.request(api, type, data, head);
   }
 
@@ -140,8 +143,13 @@ class _Log {
     final StringBuffer sb = StringBuffer();
     sb.writeln("Message: $message");
     sb.writeln("Time: $start");
-    sb.writeln("Detail: ");
-    sb.writeln(detail);
+    if (detail != null && detail.length > 100) {
+      sb.writeln("Detail: ");
+      sb.writeln(detail);
+    } else {
+      sb.writeln("Detail: $detail");
+    }
+
     return sb.toString();
   }
 

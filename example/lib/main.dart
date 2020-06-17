@@ -33,6 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _test(_) {
+    // test error
     try {
       final aa = {};
       aa["aaa"]["sdd"] = 10;
@@ -47,6 +48,8 @@ class _MyHomePageState extends State<MyHomePage> {
     Console.time("timeTest");
     Console.endTime("timeTest");
     Console.log("log ${_count++}");
+
+    // test net work
     Console.net(
       "api/user/getUser$_count",
       data: {"user": "yung", "pass": "xxxxxx"},

@@ -41,7 +41,7 @@ class _LogWidgetState extends State<LogWidget> {
                 itemBuilder: (context, index) {
                   final item = logs[len - index - 1];
                   final color = _getColor(item.type, context);
-                  final messageStyle = TextStyle(fontSize: 14, color: color);
+                  final messageStyle = TextStyle(fontSize: 16, color: color);
                   final detailStyle = TextStyle(fontSize: 14, color: color);
                   return _buildItem(item, messageStyle, detailStyle);
                 },
@@ -133,6 +133,7 @@ class _LogWidgetState extends State<LogWidget> {
       arr.add(
         ChoiceChip(
           label: Text(_getTabName(f.index)),
+          selectedColor: const Color(0xFFCBE2F6),
           selected: _selectTypes.contains(f),
           onSelected: (value) {
             _selectTypes.contains(f)
