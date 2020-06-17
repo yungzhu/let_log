@@ -8,6 +8,16 @@ class NetWidget extends StatefulWidget {
 }
 
 class _NetWidgetState extends State<NetWidget> {
+  bool _showSearch = false;
+  String _keyword = "";
+  TextEditingController _controller;
+
+  @override
+  void initState() {
+    _controller = TextEditingController(text: _keyword);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,10 +47,15 @@ class _NetWidgetState extends State<NetWidget> {
             child: ValueListenableBuilder<int>(
               valueListenable: _Net.length,
               builder: (context, value, child) {
-                var logs = _Net.list;
+                List<_Net> logs = _Net.list;
                 if (!_selectTypes.contains(_Net.all)) {
                   logs = _Net.list.where((test) {
-                    return _selectTypes.contains(test.type);
+                    return _selectTypes.contains(test.type) &&
+                        test.contains(_keyword);
+                  }).toList();
+                } else if (_keyword != null && _keyword.isNotEmpty) {
+                  logs = _Net.list.where((test) {
+                    return test.contains(_keyword);
                   }).toList();
                 }
 
@@ -219,16 +234,51 @@ class _NetWidgetState extends State<NetWidget> {
     });
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 5, 0, 5),
-      child: Row(
-        children: [
-          Expanded(
-            child: Wrap(
-              spacing: 10,
-              children: arr,
+      child: AnimatedCrossFade(
+        firstChild: Row(
+          children: [
+            Expanded(
+              child: Wrap(
+                spacing: 10,
+                children: arr,
+              ),
             ),
-          ),
-          const IconButton(icon: Icon(Icons.search), onPressed: null),
-        ],
+            IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () {
+                _showSearch = true;
+                setState(() {});
+              },
+            ),
+          ],
+        ),
+        secondChild: Row(
+          children: [
+            Expanded(
+              child: SizedBox(
+                height: 36,
+                child: TextField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    contentPadding: EdgeInsets.all(6),
+                  ),
+                  controller: _controller,
+                ),
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () {
+                _showSearch = false;
+                _keyword = _controller.text;
+                setState(() {});
+              },
+            ),
+          ],
+        ),
+        crossFadeState:
+            _showSearch ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+        duration: const Duration(milliseconds: 200),
       ),
     );
   }

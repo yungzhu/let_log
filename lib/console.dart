@@ -106,6 +106,12 @@ class _Log {
     return _typeNames[type.index];
   }
 
+  bool contains(String keyword) {
+    if (keyword == null || keyword.isEmpty) return true;
+    return message != null && message.contains(keyword) ||
+        detail != null && detail.contains(keyword);
+  }
+
   @override
   String toString() {
     final StringBuffer sb = StringBuffer();
@@ -201,6 +207,13 @@ class _Net extends ChangeNotifier {
       }
     }
     return 0;
+  }
+
+  bool contains(String keyword) {
+    if (keyword == null || keyword.isEmpty) return true;
+    return api.contains(keyword) ||
+        req != null && req.contains(keyword) ||
+        res != null && res.contains(keyword);
   }
 
   @override

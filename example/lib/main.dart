@@ -28,7 +28,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     _test(null);
-    Timer.periodic(const Duration(seconds: 5), _test);
+    // Timer.periodic(const Duration(seconds: 5), _test);
     super.initState();
   }
 
