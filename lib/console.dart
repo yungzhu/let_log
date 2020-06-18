@@ -46,6 +46,8 @@ class Console extends StatelessWidget {
     );
   }
 
+  static bool enabled = true;
+
   static void setNames({
     String log,
     String debug,
@@ -63,8 +65,6 @@ class Console extends StatelessWidget {
       response ?? "[Res]",
     ];
   }
-
-  static bool enabled = true;
 
   static void log(Object message, [Object detail]) {
     if (enabled) _Log.add(_Type.log, message, detail);
@@ -155,9 +155,16 @@ class _Log {
       start: DateTime.now(),
     );
     list.add(log);
+    _clearWhenTooMuch();
     length.value++;
     debugPrint(
         "${log.typeName} ${log.message}${log.detail == null ? '' : ' : ${log.detail}'}");
+  }
+
+  static void _clearWhenTooMuch() {
+    if (list.length > 500) {
+      list.removeRange(0, 100);
+    }
   }
 
   static void time(Object key) {
@@ -267,9 +274,16 @@ class _Net extends ChangeNotifier {
       types.add(type);
       typeLength.value++;
     }
+    _clearWhenTooMuch();
     length.value++;
     debugPrint(
         "${_typeNames[4]} ${net.api}${net.req == null ? '' : ' : ${net.req}'}");
+  }
+
+  static void _clearWhenTooMuch() {
+    if (list.length > 500) {
+      list.removeRange(0, 100);
+    }
   }
 
   static void response(String api, int status, Object data) {
@@ -284,6 +298,7 @@ class _Net extends ChangeNotifier {
       net = _Net(api: api, res: data?.toString(), start: DateTime.now());
       net.status = status;
       list.add(net);
+      _clearWhenTooMuch();
       length.value++;
     }
     debugPrint(
