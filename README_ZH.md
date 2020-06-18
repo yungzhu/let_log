@@ -39,15 +39,14 @@ Logger.endTime("timeTest");
 Logger.net(
     "api/user/getUser",
     data: {"user": "yung", "pass": "xxxxxx"},
-    head: null,
 );
 Logger.endNet(
     "api/user/getUser",
     data: {
-    "users": [
-        {"id": 1, "name": "yung", "avatar": "xxx"},
-        {"id": 2, "name": "yung2", "avatar": "xxx"}
-    ]
+        "users": [
+            {"id": 1, "name": "yung", "avatar": "xxx"},
+            {"id": 2, "name": "yung2", "avatar": "xxx"}
+        ]
     },
 );
 
@@ -56,10 +55,10 @@ Logger.net("ws/chat/getList", data: {"chanel": 1}, type: "Socket");
 Logger.endNet(
     "ws/chat/getList",
     data: {
-    "users": [
-        {"id": 1, "name": "yung", "avatar": "xxx"},
-        {"id": 2, "name": "yung2", "avatar": "xxx"}
-    ]
+        "users": [
+            {"id": 1, "name": "yung", "avatar": "xxx"},
+            {"id": 2, "name": "yung2", "avatar": "xxx"}
+        ]
     },
 );
 

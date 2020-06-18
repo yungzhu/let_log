@@ -29,6 +29,19 @@ class _MyHomePageState extends State<MyHomePage> {
     _test(null);
     Timer.periodic(const Duration(seconds: 5), _test);
     super.initState();
+
+    // setting
+    // Logger.enabled = false;
+    // Logger.maxLimit = 10;
+    // Logger.showAsReverse = true;
+    // Logger.setNames(
+    //   log: "😄",
+    //   debug: "🐛",
+    //   warn: "❗",
+    //   error: "❌",
+    //   request: "⬆️",
+    //   response: "⬇️",
+    // );
   }
 
   void _test(_) {
@@ -60,7 +73,6 @@ class _MyHomePageState extends State<MyHomePage> {
     Logger.net(
       "api/user/getUser",
       data: {"user": "yung", "pass": "xxxxxx"},
-      head: null,
     );
     Logger.endNet(
       "api/user/getUser",
@@ -86,19 +98,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
     // clear log
     // Logger.clear()
-
-    // setting
-    // Logger.enabled = false;
-    // Logger.maxLimit = 10;
-    // Logger.showAsReverse = true;
-    // Logger.setNames(
-    //   log: "😄",
-    //   debug: "🐛",
-    //   warn: "❗",
-    //   error: "❌",
-    //   request: "⬆️",
-    //   response: "⬇️",
-    // );
   }
 
   @override

@@ -38,28 +38,27 @@ Logger.endTime("timeTest");
 // log net work
 Logger.net(
     "api/user/getUser",
-    data: {"user": "yung", "pass": "xxxxxxx"},
-    head: null,
+    data: {"user": "yung", "pass": "xxxxxx"},
 );
 Logger.endNet(
     "api/user/getUser",
     data: {
-    "users": [
-        {"id": 1, "name": "yung", "avatar": "xxx"},
-        {"id": 2, "name": "yung2", "avatar": "xxx"}
-    ]
+        "users": [
+            {"id": 1, "name": "yung", "avatar": "xxx"},
+            {"id": 2, "name": "yung2", "avatar": "xxx"}
+        ]
     },
 );
 
 // log net work
-Logger.net("ws/chat/getList", data: {" chanel": 1}, type: "Socket");
+Logger.net("ws/chat/getList", data: {"chanel": 1}, type: "Socket");
 Logger.endNet(
     "ws/chat/getList",
     data: {
-    "users": [
-        {"id": 1, "name": "yung", "avatar": "xxx"},
-        {"id": 2, "name": "yung2", "avatar": "xxx"}
-    ]
+        "users": [
+            {"id": 1, "name": "yung", "avatar": "xxx"},
+            {"id": 2, "name": "yung2", "avatar": "xxx"}
+        ]
     },
 );
 
@@ -106,10 +105,10 @@ Custom category names
 // Logger.showAsReverse = true;
 Logger.setNames(
     log: "😄",
-    debug: "So_1F41B",
+    debug: "🐛",
     warn: "❗",
     error: "❌",
-    request: "So_2B06_️",
+    request: "⬆️",
     response: "⬇️",
 );
 ```

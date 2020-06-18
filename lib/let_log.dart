@@ -98,18 +98,13 @@ class Logger extends StatelessWidget {
     _Log.clear();
   }
 
-  static void net(
-    String api, {
-    String type = "Http",
-    Object data,
-    Object head,
-  }) {
+  static void net(String api, {String type = "Http", Object data}) {
     assert(api != null);
-    if (enabled) _Net.request(api, type, data, head);
+    if (enabled) _Net.request(api, type, data);
   }
 
-  static void endNet(String api, {int status = 200, Object data}) {
-    if (enabled) _Net.response(api, status, data);
+  static void endNet(String api, {int status = 200, Object data, Object head}) {
+    if (enabled) _Net.response(api, status, data, head);
   }
 }
 
@@ -200,11 +195,11 @@ class _Net extends ChangeNotifier {
   final String api;
   final String type;
   final String req;
-  final String head;
   final DateTime start;
   int status = 100;
   int spend = 0;
   String res;
+  String head;
   bool showDetail = false;
   int _reqSize = -1;
   int _resSize = -1;
@@ -262,12 +257,11 @@ class _Net extends ChangeNotifier {
     return sb.toString();
   }
 
-  static void request(String api, String type, Object data, Object head) {
+  static void request(String api, String type, Object data) {
     final net = _Net(
       api: api,
       type: type,
       req: data?.toString(),
-      head: head?.toString(),
       start: DateTime.now(),
     );
     list.add(net);
@@ -288,16 +282,22 @@ class _Net extends ChangeNotifier {
     }
   }
 
-  static void response(String api, int status, Object data) {
+  static void response(String api, int status, Object data, Object head) {
     _Net net = _map[api];
     if (net != null) {
       _map.remove(net);
       net.spend = DateTime.now().difference(net.start).inMilliseconds;
       net.status = status;
+      net.head = head?.toString();
       net.res = data?.toString();
       length.notifyListeners();
     } else {
-      net = _Net(api: api, res: data?.toString(), start: DateTime.now());
+      net = _Net(
+        api: api,
+        res: data?.toString(),
+        start: DateTime.now(),
+        head: head?.toString(),
+      );
       net.status = status;
       list.add(net);
       _clearWhenTooMuch();
