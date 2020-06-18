@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:let_log/logger.dart';
+import 'package:let_log/let_log.dart';
 
 void main() {
   runApp(MyApp());
