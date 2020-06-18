@@ -10,7 +10,7 @@ API inspired by web
 
 **Example code**
 
-```
+```dart
 // log
 Console.log("this is log");
 
@@ -75,7 +75,7 @@ Console.endNet(
 
 **Display logs in the app**
 
-```
+```dart
 Widget build(BuildContext context) {
     return Console();
 }
@@ -99,7 +99,7 @@ Widget build(BuildContext context) {
 
 Custom category names
 
-```
+```dart
 // setting
 // Console.enabled = false;
 // Console.maxLimit = 10;

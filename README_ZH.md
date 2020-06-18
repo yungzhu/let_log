@@ -10,7 +10,7 @@ API 灵感来源于 web
 
 **示例代码**
 
-```
+```dart
 // log
 Console.log("this is log");
 
@@ -75,7 +75,7 @@ Console.endNet(
 
 **在 App 内展示日志**
 
-```
+```dart
 Widget build(BuildContext context) {
     return Console();
 }
@@ -99,7 +99,7 @@ Widget build(BuildContext context) {
 
 自定义分类名称
 
-```
+```dart
 // setting
 // Console.enabled = false;
 // Console.maxLimit = 10;
