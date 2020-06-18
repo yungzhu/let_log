@@ -1,8 +1,7 @@
 name: let_log
 description: A new Flutter package.
 version: 1.0.0
-author:
-homepage:
+homepage: https://github.com/yungzhu/let_log
 
 environment:
     sdk: ">=2.7.0 <3.0.0"
