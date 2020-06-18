@@ -91,14 +91,14 @@ class _MyHomePageState extends State<MyHomePage> {
     // Console.enabled = false;
     // Console.maxLimit = 10;
     // Console.showAsReverse = true;
-    Console.setNames(
-      log: "😄",
-      debug: "🐛",
-      warn: "❗",
-      error: "❌",
-      request: "⬆️",
-      response: "⬇️",
-    );
+    // Console.setNames(
+    //   log: "😄",
+    //   debug: "🐛",
+    //   warn: "❗",
+    //   error: "❌",
+    //   request: "⬆️",
+    //   response: "⬇️",
+    // );
   }
 
   @override
