@@ -47,6 +47,8 @@ class Console extends StatelessWidget {
   }
 
   static bool enabled = true;
+  static int maxLimit = 500;
+  static bool showAsReverse = false;
 
   static void setNames({
     String log,
@@ -162,8 +164,8 @@ class _Log {
   }
 
   static void _clearWhenTooMuch() {
-    if (list.length > 500) {
-      list.removeRange(0, 100);
+    if (list.length > Console.maxLimit) {
+      list.removeRange(0, (Console.maxLimit * 0.2).ceil());
     }
   }
 
@@ -281,8 +283,8 @@ class _Net extends ChangeNotifier {
   }
 
   static void _clearWhenTooMuch() {
-    if (list.length > 500) {
-      list.removeRange(0, 100);
+    if (list.length > Console.maxLimit) {
+      list.removeRange(0, (Console.maxLimit * 0.2).ceil());
     }
   }
 

@@ -39,7 +39,9 @@ class _LogWidgetState extends State<LogWidget> {
               final len = logs.length;
               return ListView.separated(
                 itemBuilder: (context, index) {
-                  final item = logs[len - index - 1];
+                  final item = Console.showAsReverse
+                      ? logs[len - index - 1]
+                      : logs[index];
                   final color = _getColor(item.type, context);
                   final messageStyle = TextStyle(fontSize: 16, color: color);
                   final detailStyle = TextStyle(fontSize: 14, color: color);

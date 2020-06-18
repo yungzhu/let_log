@@ -48,7 +48,10 @@ class _NetWidgetState extends State<NetWidget> {
               final len = logs.length;
               return ListView.separated(
                 itemBuilder: (context, index) {
-                  return _buildItem(logs[len - index - 1], context);
+                  final item = Console.showAsReverse
+                      ? logs[len - index - 1]
+                      : logs[index];
+                  return _buildItem(item, context);
                 },
                 itemCount: len,
                 separatorBuilder: (context, index) {
