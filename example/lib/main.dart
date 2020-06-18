@@ -58,39 +58,15 @@ class _MyHomePageState extends State<MyHomePage> {
       Console.endNet(
         "api/user/getUser$_count",
         data: {
-          "schema": "http://json-schema.org/draft-04/schema#",
-          "type": "object",
-          "properties": {
-            "arrArrStr": {
-              "type": "array",
-              "items": {
-                "type": "array",
-                "items": {"type": "string"}
-              }
-            },
-            "arrArrObj": {
-              "type": "array",
-              "items": {
-                "type": "array",
-                "items": {"type": "object", "properties": {}}
-              }
-            },
-            "objArr": {
-              "type": "object",
-              "properties": {
-                "arr": {
-                  "type": "array",
-                  "items": {"type": "string"}
-                }
-              },
-              "required": ["arr"]
-            }
-          },
-          "required": ["arrArrObj", "objArr"]
+          users:[
+            {id:1,name:"yung",avatar:"xxx"},
+            {id:2,name:"yung2",avatar:"xxx"}
+          ]
         },
       );
     });
     // Console.clear();
+    // Console.enabled = false;
   }
 
   @override

@@ -1,8 +1,51 @@
 # let_log
 
-LetLog 是一个
+LetLog 是一个同时支持 IDE 和 App 内显示的 log 系统，并同时支持 log 和网络日志
 
 ## Getting Started
+
+API 灵感来源于 web
+
+示例代码
+
+```
+// log
+Console.log("this is log");
+
+// debug
+Console.debug("this is debug", "this is debug message");
+
+// warn
+Console.warn("this is warn", "this is a warning message");
+
+// error
+Console.error("this is error", "this is a error message");
+
+// time test
+Console.time("timeTest");
+Console.endTime("timeTest");
+
+// log net work
+Console.net(
+    "api/user/getUser$_count",
+    data: {"user": "yung", "pass": "xxxxxx"},
+);
+Console.endNet(
+    "api/user/getUser$_count",
+    data: {
+        users:[
+        {id:1,name:"yung",avatar:"xxx"},
+        {id:2,name:"yung2",avatar:"xxx"}
+        ]
+    },
+);
+
+// clear log
+// Console.clear()
+
+// disabled log
+// Console.enabled = false;
+```
 
 同时支持 IDE 打印和 App 内展示
 同时支持日志，错误，时间统计，网络数据等信息输出
