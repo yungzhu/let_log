@@ -1,3 +1,3 @@
 library let_log;
 
-export 'console.dart';
+export 'logger.dart';

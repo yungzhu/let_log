@@ -1,4 +1,4 @@
-part of console;
+part of logger;
 
 class LogWidget extends StatefulWidget {
   const LogWidget({Key key}) : super(key: key);
@@ -39,7 +39,7 @@ class _LogWidgetState extends State<LogWidget> {
               final len = logs.length;
               return ListView.separated(
                 itemBuilder: (context, index) {
-                  final item = Console.showAsReverse
+                  final item = Logger.showAsReverse
                       ? logs[len - index - 1]
                       : logs[index];
                   final color = _getColor(item.type, context);

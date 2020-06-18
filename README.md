@@ -12,36 +12,36 @@ API inspired by web
 
 ```dart
 // log
-Console.log("this is log");
+Logger.log("this is log");
 
 // debug
-Console.debug("this is debug", "this is debug message");
+Logger.debug("this is debug", "this is debug message");
 
 // warn
-Console.warn("this is warn", "this is a warning message");
+Logger.warn("this is warn", "this is a warning message");
 
 // error
-Console.error("this is error", "this is a error message");
+Logger.error("this is error", "this is a error message");
 
 // test error
 try {
     final aa = {};
     aa["aaa"]["sdd"] = 10;
 } catch (a, e) {
-    Console.error(a, e);
+    Logger.error(a, e);
 }
 
 // time test
-Console.time("timeTest");
-Console.endTime("timeTest");
+Logger.time("timeTest");
+Logger.endTime("timeTest");
 
 // log net work
-Console.net(
+Logger.net(
     "api/user/getUser",
     data: {"user": "yung", "pass": "xxxxxxx"},
     head: null,
 );
-Console.endNet(
+Logger.endNet(
     "api/user/getUser",
     data: {
     "users": [
@@ -52,8 +52,8 @@ Console.endNet(
 );
 
 // log net work
-Console.net("ws/chat/getList", data: {" chanel": 1}, type: "Socket");
-Console.endNet(
+Logger.net("ws/chat/getList", data: {" chanel": 1}, type: "Socket");
+Logger.endNet(
     "ws/chat/getList",
     data: {
     "users": [
@@ -64,7 +64,7 @@ Console.endNet(
 );
 
 // clear log
-// Console.clear()
+// Logger.clear()
 ```
 
 > For a detailed example, please refer to [here](example/lib/main.dart).
@@ -77,7 +77,7 @@ Console.endNet(
 
 ```dart
 Widget build(BuildContext context) {
-    return Console();
+    return Logger();
 }
 ```
 
@@ -101,10 +101,10 @@ Custom category names
 
 ```dart
 // setting
-// Console.enabled = false;
-// Console.maxLimit = 10;
-// Console.showAsReverse = true;
-Console.setNames(
+// Logger.enabled = false;
+// Logger.maxLimit = 10;
+// Logger.showAsReverse = true;
+Logger.setNames(
     log: "😄",
     debug: "So_1F41B",
     warn: "❗",

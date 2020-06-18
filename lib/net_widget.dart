@@ -1,4 +1,4 @@
-part of console;
+part of logger;
 
 class NetWidget extends StatefulWidget {
   const NetWidget({Key key}) : super(key: key);
@@ -48,7 +48,7 @@ class _NetWidgetState extends State<NetWidget> {
               final len = logs.length;
               return ListView.separated(
                 itemBuilder: (context, index) {
-                  final item = Console.showAsReverse
+                  final item = Logger.showAsReverse
                       ? logs[len - index - 1]
                       : logs[index];
                   return _buildItem(item, context);

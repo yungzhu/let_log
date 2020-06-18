@@ -1,4 +1,4 @@
-library console;
+library logger;
 
 import 'dart:convert';
 
@@ -22,7 +22,7 @@ String _getTabName(int index) {
   return _typeNames[index].replaceAll(_tabReg, "");
 }
 
-class Console extends StatelessWidget {
+class Logger extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -164,8 +164,8 @@ class _Log {
   }
 
   static void _clearWhenTooMuch() {
-    if (list.length > Console.maxLimit) {
-      list.removeRange(0, (Console.maxLimit * 0.2).ceil());
+    if (list.length > Logger.maxLimit) {
+      list.removeRange(0, (Logger.maxLimit * 0.2).ceil());
     }
   }
 
@@ -283,8 +283,8 @@ class _Net extends ChangeNotifier {
   }
 
   static void _clearWhenTooMuch() {
-    if (list.length > Console.maxLimit) {
-      list.removeRange(0, (Console.maxLimit * 0.2).ceil());
+    if (list.length > Logger.maxLimit) {
+      list.removeRange(0, (Logger.maxLimit * 0.2).ceil());
     }
   }
 

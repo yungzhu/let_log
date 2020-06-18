@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:let_log/console.dart';
+import 'package:let_log/logger.dart';
 
 void main() {
   runApp(MyApp());
@@ -33,36 +33,36 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _test(_) {
     // log
-    Console.log("this is log");
+    Logger.log("this is log");
 
     // debug
-    Console.debug("this is debug", "this is debug message");
+    Logger.debug("this is debug", "this is debug message");
 
     // warn
-    Console.warn("this is warn", "this is a warning message");
+    Logger.warn("this is warn", "this is a warning message");
 
     // error
-    Console.error("this is error", "this is a error message");
+    Logger.error("this is error", "this is a error message");
 
     // test error
     try {
       final aa = {};
       aa["aaa"]["sdd"] = 10;
     } catch (a, e) {
-      Console.error(a, e);
+      Logger.error(a, e);
     }
 
     // time test
-    Console.time("timeTest");
-    Console.endTime("timeTest");
+    Logger.time("timeTest");
+    Logger.endTime("timeTest");
 
     // log net work
-    Console.net(
+    Logger.net(
       "api/user/getUser",
       data: {"user": "yung", "pass": "xxxxxx"},
       head: null,
     );
-    Console.endNet(
+    Logger.endNet(
       "api/user/getUser",
       data: {
         "users": [
@@ -73,8 +73,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     // log net work
-    Console.net("ws/chat/getList", data: {"chanel": 1}, type: "Socket");
-    Console.endNet(
+    Logger.net("ws/chat/getList", data: {"chanel": 1}, type: "Socket");
+    Logger.endNet(
       "ws/chat/getList",
       data: {
         "users": [
@@ -85,13 +85,13 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     // clear log
-    // Console.clear()
+    // Logger.clear()
 
     // setting
-    // Console.enabled = false;
-    // Console.maxLimit = 10;
-    // Console.showAsReverse = true;
-    // Console.setNames(
+    // Logger.enabled = false;
+    // Logger.maxLimit = 10;
+    // Logger.showAsReverse = true;
+    // Logger.setNames(
     //   log: "😄",
     //   debug: "🐛",
     //   warn: "❗",
@@ -103,6 +103,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Console();
+    return Logger();
   }
 }
