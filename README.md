@@ -70,6 +70,7 @@ Console.endNet(
 > For a detailed example, please refer to [here](example/lib/main.dart).
 
 **IDE Display results**
+
 ![Let Log](images/ide.png)
 
 **Display logs in the app**
@@ -83,12 +84,15 @@ Widget build(BuildContext context) {
 > For a detailed example, please refer to [here](example/lib/main.dart).
 
 **App log**
+
 ![Let Log](images/log.png)
 
 **App network**
+
 ![Let Log](images/net.png)
 
 **App search**
+
 ![Let Log](images/search.png)
 
 **Setting**
@@ -111,6 +115,7 @@ Console.setNames(
 ```
 
 Results:
+
 ![Let Log](images/name.png)
 
 ## Feature
