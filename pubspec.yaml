@@ -1,6 +1,6 @@
 name: let_log
-description: A new Flutter package.
-version: 1.0.0
+description: LetLog is a log system that supports both IDE and in-app display, and supports log and network.
+version: 1.0.1
 homepage: https://github.com/yungzhu/let_log
 
 environment:

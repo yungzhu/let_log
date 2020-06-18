@@ -1,4 +1,4 @@
-library console;
+library let_log;
 
 import 'dart:convert';
 

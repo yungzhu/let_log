@@ -1,4 +1,4 @@
-part of console;
+part of let_log;
 
 class LogWidget extends StatefulWidget {
   const LogWidget({Key key}) : super(key: key);
