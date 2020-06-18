@@ -1,4 +1,4 @@
-part of let_log;
+part of console;
 
 class NetWidget extends StatefulWidget {
   const NetWidget({Key key}) : super(key: key);

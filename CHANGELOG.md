@@ -1,4 +1,4 @@
-## [1.0.1] - 2020-6-18
+## [1.0.2] - 2020-6-18
 
 -   Support for both IDE printing and in-app presentation
 
