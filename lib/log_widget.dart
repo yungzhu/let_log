@@ -10,60 +10,92 @@ class LogWidget extends StatefulWidget {
 class _LogWidgetState extends State<LogWidget> {
   bool _showSearch = false;
   String _keyword = "";
-  TextEditingController _controller;
+  TextEditingController _textController;
+  ScrollController _scrollController;
+  bool _goDown = true;
 
   @override
   void initState() {
-    _controller = TextEditingController(text: _keyword);
+    _textController = TextEditingController(text: _keyword);
+    _scrollController = ScrollController();
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        _buildTools(),
-        Expanded(
-          child: ValueListenableBuilder<int>(
-            valueListenable: _Log.length,
-            builder: (context, value, child) {
-              List<_Log> logs = _Log.list;
-              if (_selectTypes.length < 4 || _keyword.isNotEmpty) {
-                logs = _Log.list.where((test) {
-                  return _selectTypes.contains(test.type) &&
-                      test.contains(_keyword);
-                }).toList();
-              }
+  void dispose() {
+    _textController.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
 
-              final len = logs.length;
-              return ListView.separated(
-                itemBuilder: (context, index) {
-                  final item = Logger.config.reverse
-                      ? logs[len - index - 1]
-                      : logs[index];
-                  final color = _getColor(item.type, context);
-                  final messageStyle = TextStyle(fontSize: 16, color: color);
-                  final detailStyle = TextStyle(fontSize: 14, color: color);
-                  return _buildItem(item, messageStyle, detailStyle);
-                },
-                itemCount: len,
-                separatorBuilder: (context, index) {
-                  return const Divider(
-                    height: 10,
-                    thickness: 0.5,
-                    color: Color(0xFFE0E0E0),
-                  );
-                },
-              );
-            },
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          _buildTools(),
+          Expanded(
+            child: ValueListenableBuilder<int>(
+              valueListenable: _Log.length,
+              builder: (context, value, child) {
+                List<_Log> logs = _Log.list;
+                if (_selectTypes.length < 4 || _keyword.isNotEmpty) {
+                  logs = _Log.list.where((test) {
+                    return _selectTypes.contains(test.type) &&
+                        test.contains(_keyword);
+                  }).toList();
+                }
+
+                return ListView.separated(
+                  itemBuilder: (context, index) {
+                    final item = logs[index];
+                    final color = _getColor(item.type, context);
+                    return _buildItem(item, color);
+                  },
+                  reverse: Logger.config.reverse,
+                  itemCount: logs.length,
+                  controller: _scrollController,
+                  separatorBuilder: (context, index) {
+                    return const Divider(
+                      height: 10,
+                      thickness: 0.5,
+                      color: Color(0xFFE0E0E0),
+                    );
+                  },
+                );
+              },
+            ),
           ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          if (_goDown) {
+            _scrollController.animateTo(
+              _scrollController.position.maxScrollExtent * 2,
+              curve: Curves.easeOut,
+              duration: const Duration(milliseconds: 300),
+            );
+          } else {
+            _scrollController.animateTo(
+              0,
+              curve: Curves.easeOut,
+              duration: const Duration(milliseconds: 300),
+            );
+          }
+          _goDown = !_goDown;
+          setState(() {});
+        },
+        mini: true,
+        child: Icon(
+          _goDown ? Icons.arrow_downward : Icons.arrow_upward,
         ),
-      ],
+      ),
     );
   }
 
-  Widget _buildItem(_Log item, TextStyle messageStyle, TextStyle detailStyle) {
+  Widget _buildItem(_Log item, Color color) {
     return InkWell(
       onTap: () {
         final ClipboardData data = ClipboardData(text: item.toString());
@@ -91,14 +123,14 @@ class _LogWidgetState extends State<LogWidget> {
           children: [
             Text(
               "${item.tabName} ${item.message} (${item.start.hour}:${item.start.minute}:${item.start.second}:${item.start.millisecond})",
-              style: messageStyle,
+              style: TextStyle(fontSize: 16, color: color),
             ),
             if (item.detail != null)
               Padding(
                 padding: const EdgeInsets.only(top: 8),
                 child: Text(
                   item.detail,
-                  style: detailStyle,
+                  style: TextStyle(fontSize: 14, color: color),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 20,
                 ),
@@ -188,7 +220,7 @@ class _LogWidgetState extends State<LogWidget> {
                     border: OutlineInputBorder(),
                     contentPadding: EdgeInsets.all(6),
                   ),
-                  controller: _controller,
+                  controller: _textController,
                 ),
               ),
             ),
@@ -196,7 +228,7 @@ class _LogWidgetState extends State<LogWidget> {
               icon: const Icon(Icons.search),
               onPressed: () {
                 _showSearch = false;
-                _keyword = _controller.text;
+                _keyword = _textController.text;
                 setState(() {});
               },
             ),

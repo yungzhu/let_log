@@ -26,16 +26,12 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
-    _test(null);
-    Timer.periodic(const Duration(seconds: 5), _test);
-    super.initState();
-
     // setting
     // Logger.enabled = false;
     // Logger.config.maxLimit = 10;
     // Logger.config.reverse = true;
-    // Logger.config.printLog = true;
-    // Logger.config.printNet = true;
+    // Logger.config.printLog = false;
+    // Logger.config.printNet = false;
     // Logger.config.setPrintNames(
     //   log: "😄",
     //   debug: "🐛",
@@ -52,6 +48,10 @@ class _MyHomePageState extends State<MyHomePage> {
     //   request: "⬆️",
     //   response: "⬇️",
     // );
+
+    _test(null);
+    Timer.periodic(const Duration(seconds: 5), _test);
+    super.initState();
   }
 
   void _test(_) {
