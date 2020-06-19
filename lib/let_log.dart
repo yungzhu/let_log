@@ -8,18 +8,53 @@ part 'log_widget.dart';
 part 'net_widget.dart';
 
 enum _Type { log, debug, warn, error }
+List<String> _printNames = ["😄", "🐛", "❗", "❌", "⬆️", "⬇️"];
+List<String> _tabNames = ["[Log]", "[Debug]", "[Warn]", "[Error]"];
 final RegExp _tabReg = RegExp(r"\[|\]");
-// List<String> _typeNames = ["😄", "🐛", "❗", "❌", "⬆️", "⬇️"];
-List<String> _typeNames = [
-  "[Log]",
-  "[Debug]",
-  "[Warn]",
-  "[Error]",
-  "[Req]",
-  "[Res]"
-];
+
 String _getTabName(int index) {
-  return _typeNames[index].replaceAll(_tabReg, "");
+  return _tabNames[index].replaceAll(_tabReg, "");
+}
+
+class _Config {
+  bool reverse = false;
+  bool printNet = true;
+  bool printLog = true;
+  int maxLimit = 500;
+
+  void setPrintNames({
+    String log,
+    String debug,
+    String warn,
+    String error,
+    String request,
+    String response,
+  }) {
+    _printNames = [
+      log ?? "[Log]",
+      debug ?? "[Debug]",
+      warn ?? "[Warn]",
+      error ?? "[Error]",
+      request ?? "[Req]",
+      response ?? "[Res]",
+    ];
+  }
+
+  void setTabNames({
+    String log,
+    String debug,
+    String warn,
+    String error,
+    String request,
+    String response,
+  }) {
+    _tabNames = [
+      log ?? "[Log]",
+      debug ?? "[Debug]",
+      warn ?? "[Warn]",
+      error ?? "[Error]",
+    ];
+  }
 }
 
 class Logger extends StatelessWidget {
@@ -47,26 +82,7 @@ class Logger extends StatelessWidget {
   }
 
   static bool enabled = true;
-  static int maxLimit = 500;
-  static bool showAsReverse = false;
-
-  static void setNames({
-    String log,
-    String debug,
-    String warn,
-    String error,
-    String request,
-    String response,
-  }) {
-    _typeNames = [
-      log ?? "[Log]",
-      debug ?? "[Debug]",
-      warn ?? "[Warn]",
-      error ?? "[Error]",
-      request ?? "[Req]",
-      response ?? "[Res]",
-    ];
-  }
+  static _Config config = _Config();
 
   static void log(Object message, [Object detail]) {
     if (enabled) _Log.add(_Type.log, message, detail);
@@ -103,8 +119,9 @@ class Logger extends StatelessWidget {
     if (enabled) _Net.request(api, type, data);
   }
 
-  static void endNet(String api, {int status = 200, Object data, Object head}) {
-    if (enabled) _Net.response(api, status, data, head);
+  static void endNet(String api,
+      {int status = 200, Object data, Object head, String type}) {
+    if (enabled) _Net.response(api, status, data, head, type);
   }
 }
 
@@ -120,7 +137,11 @@ class _Log {
   const _Log({this.type, this.message, this.detail, this.start});
 
   String get typeName {
-    return _typeNames[type.index];
+    return _printNames[type.index];
+  }
+
+  String get tabName {
+    return _tabNames[type.index];
   }
 
   bool contains(String keyword) {
@@ -154,13 +175,15 @@ class _Log {
     list.add(log);
     _clearWhenTooMuch();
     length.value++;
-    debugPrint(
-        "${log.typeName} ${log.message}${log.detail == null ? '' : ' : ${log.detail}'}");
+    if (Logger.config.printLog) {
+      debugPrint(
+          "${log.typeName} ${log.message}${log.detail == null ? '' : '\n${log.detail}'}\n--------------------------------");
+    }
   }
 
   static void _clearWhenTooMuch() {
-    if (list.length > Logger.maxLimit) {
-      list.removeRange(0, (Logger.maxLimit * 0.2).ceil());
+    if (list.length > Logger.config.maxLimit) {
+      list.removeRange(0, (Logger.config.maxLimit * 0.2).ceil());
     }
   }
 
@@ -172,8 +195,8 @@ class _Log {
     final data = _map[key];
     if (data != null) {
       _map.remove(key);
-      final use = DateTime.now().difference(data).inMilliseconds;
-      _Log.add(_Type.log, '$key: $use ms', null);
+      final spend = DateTime.now().difference(data).inMilliseconds;
+      _Log.add(_Type.log, '$key: $spend ms', null);
     }
   }
 
@@ -193,9 +216,9 @@ class _Net extends ChangeNotifier {
   static final ValueNotifier<int> typeLength = ValueNotifier(1);
 
   final String api;
-  final String type;
   final String req;
   final DateTime start;
+  String type;
   int status = 100;
   int spend = 0;
   String res;
@@ -211,7 +234,7 @@ class _Net extends ChangeNotifier {
     this.head,
     this.start,
     this.res,
-    this.spend,
+    this.spend = 0,
   });
 
   int getReqSize() {
@@ -272,17 +295,20 @@ class _Net extends ChangeNotifier {
     }
     _clearWhenTooMuch();
     length.value++;
-    debugPrint(
-        "${_typeNames[4]} ${net.api}${net.req == null ? '' : ' : ${net.req}'}");
-  }
-
-  static void _clearWhenTooMuch() {
-    if (list.length > Logger.maxLimit) {
-      list.removeRange(0, (Logger.maxLimit * 0.2).ceil());
+    if (Logger.config.printNet) {
+      debugPrint(
+          "${_printNames[4]} ${type == null ? '' : '$type: '}${net.api}${net.req == null ? '' : '\nData: ${net.req}'}\n--------------------------------");
     }
   }
 
-  static void response(String api, int status, Object data, Object head) {
+  static void _clearWhenTooMuch() {
+    if (list.length > Logger.config.maxLimit) {
+      list.removeRange(0, (Logger.config.maxLimit * 0.2).ceil());
+    }
+  }
+
+  static void response(
+      String api, int status, Object data, Object head, String type) {
     _Net net = _map[api];
     if (net != null) {
       _map.remove(net);
@@ -292,19 +318,18 @@ class _Net extends ChangeNotifier {
       net.res = data?.toString();
       length.notifyListeners();
     } else {
-      net = _Net(
-        api: api,
-        res: data?.toString(),
-        start: DateTime.now(),
-        head: head?.toString(),
-      );
+      net = _Net(api: api, start: DateTime.now(), type: type);
       net.status = status;
+      net.head = head?.toString();
+      net.res = data?.toString();
       list.add(net);
       _clearWhenTooMuch();
       length.value++;
     }
-    debugPrint(
-        "${_typeNames[5]} ${net.api}${net.res == null ? '' : ' : ${net.res}'}");
+    if (Logger.config.printNet) {
+      debugPrint(
+          "${_printNames[5]} ${net.type == null ? '' : '${net.type}: '}${net.api}${net.res == null ? '' : '\nData: ${net.res}'}\nSpend: ${net.spend} ms\n--------------------------------");
+    }
   }
 
   static void clear() {

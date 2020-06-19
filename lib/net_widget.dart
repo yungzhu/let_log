@@ -48,7 +48,7 @@ class _NetWidgetState extends State<NetWidget> {
               final len = logs.length;
               return ListView.separated(
                 itemBuilder: (context, index) {
-                  final item = Logger.showAsReverse
+                  final item = Logger.config.reverse
                       ? logs[len - index - 1]
                       : logs[index];
                   return _buildItem(item, context);
@@ -88,16 +88,6 @@ class _NetWidgetState extends State<NetWidget> {
                     "[${item.type}] ${item.api}",
                     style: const TextStyle(fontSize: 16),
                   ),
-                  if (item.showDetail && item.head != null)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: Text(
-                        "Head: ${item.head ?? ""}",
-                        maxLines: 100,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 14),
-                      ),
-                    ),
                   if (item.showDetail)
                     Padding(
                       padding: const EdgeInsets.only(top: 8),
@@ -113,6 +103,16 @@ class _NetWidgetState extends State<NetWidget> {
                       padding: const EdgeInsets.only(top: 8),
                       child: Text(
                         "Response: ${item.res ?? ""}",
+                        maxLines: 100,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontSize: 14),
+                      ),
+                    ),
+                  if (item.showDetail && item.head != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text(
+                        "Head: ${item.head ?? ""}",
                         maxLines: 100,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(fontSize: 14),

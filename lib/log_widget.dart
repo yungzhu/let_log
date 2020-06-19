@@ -39,7 +39,7 @@ class _LogWidgetState extends State<LogWidget> {
               final len = logs.length;
               return ListView.separated(
                 itemBuilder: (context, index) {
-                  final item = Logger.showAsReverse
+                  final item = Logger.config.reverse
                       ? logs[len - index - 1]
                       : logs[index];
                   final color = _getColor(item.type, context);
@@ -90,7 +90,7 @@ class _LogWidgetState extends State<LogWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "${item.typeName} ${item.message} (${item.start.hour}:${item.start.minute}:${item.start.second}:${item.start.millisecond})",
+              "${item.tabName} ${item.message} (${item.start.hour}:${item.start.minute}:${item.start.second}:${item.start.millisecond})",
               style: messageStyle,
             ),
             if (item.detail != null)

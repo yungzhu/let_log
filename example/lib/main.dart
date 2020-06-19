@@ -32,9 +32,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
     // setting
     // Logger.enabled = false;
-    // Logger.maxLimit = 10;
-    // Logger.showAsReverse = true;
-    // Logger.setNames(
+    // Logger.config.maxLimit = 10;
+    // Logger.config.reverse = true;
+    // Logger.config.printLog = true;
+    // Logger.config.printNet = true;
+    // Logger.config.setPrintNames(
+    //   log: "😄",
+    //   debug: "🐛",
+    //   warn: "❗",
+    //   error: "❌",
+    //   request: "⬆️",
+    //   response: "⬇️",
+    // );
+    // Logger.config.setTabNames(
     //   log: "😄",
     //   debug: "🐛",
     //   warn: "❗",
@@ -97,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     // clear log
-    // Logger.clear()
+    // Logger.clear();
   }
 
   @override
