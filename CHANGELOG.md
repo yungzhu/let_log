@@ -1,4 +1,8 @@
-## [1.0.5] - 2020-6-18
+## [1.0.6] - 2020-6-19
+
+-   Add Configuration Options
+
+## [1.0.0] - 2020-6-18
 
 -   Support for both IDE printing and in-app presentation
 
