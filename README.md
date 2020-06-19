@@ -25,10 +25,10 @@ Logger.error("this is error", "this is a error message");
 
 // test error
 try {
-    final aa = {};
-    aa["aaa"]["sdd"] = 10;
+  final aa = {};
+  aa["aaa"]["sdd"] = 10;
 } catch (a, e) {
-    Logger.error(a, e);
+  Logger.error(a, e);
 }
 
 // time test
@@ -37,33 +37,33 @@ Logger.endTime("timeTest");
 
 // log net work
 Logger.net(
-    "api/user/getUser",
-    data: {"user": "yung", "pass": "xxxxxx"},
+  "api/user/getUser",
+  data: {"user": "yung", "pass": "xxxxxx"},
 );
 Logger.endNet(
-    "api/user/getUser",
-    data: {
-        "users": [
-            {"id": 1, "name": "yung", "avatar": "xxx"},
-            {"id": 2, "name": "yung2", "avatar": "xxx"}
-        ]
-    },
+  "api/user/getUser",
+  data: {
+    "users": [
+      {"id": 1, "name": "yung", "avatar": "xxx"},
+      {"id": 2, "name": "yung2", "avatar": "xxx"}
+    ]
+  },
 );
 
 // log net work
 Logger.net("ws/chat/getList", data: {"chanel": 1}, type: "Socket");
 Logger.endNet(
-    "ws/chat/getList",
-    data: {
-        "users": [
-            {"id": 1, "name": "yung", "avatar": "xxx"},
-            {"id": 2, "name": "yung2", "avatar": "xxx"}
-        ]
-    },
+  "ws/chat/getList",
+  data: {
+    "users": [
+      {"id": 1, "name": "yung", "avatar": "xxx"},
+      {"id": 2, "name": "yung2", "avatar": "xxx"}
+    ]
+  },
 );
 
 // clear log
-// Logger.clear()
+// Logger.clear();
 ```
 
 > For a detailed example, please refer to [here](example/lib/main.dart).
@@ -100,10 +100,20 @@ Custom category names
 
 ```dart
 // setting
-// Logger.enabled = false;
-// Logger.maxLimit = 10;
-// Logger.showAsReverse = true;
-Logger.setNames(
+Logger.enabled = false;
+Logger.config.maxLimit = 10;
+Logger.config.reverse = true;
+Logger.config.printLog = true;
+Logger.config.printNet = true;
+Logger.config.setPrintNames(
+    log: "😄",
+    debug: "🐛",
+    warn: "❗",
+    error: "❌",
+    request: "⬆️",
+    response: "⬇️",
+);
+Logger.config.setTabNames(
     log: "😄",
     debug: "🐛",
     warn: "❗",
