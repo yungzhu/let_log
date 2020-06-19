@@ -134,7 +134,10 @@ class _LogWidgetState extends State<LogWidget> {
     _Type.values.forEach((f) {
       arr.add(
         ChoiceChip(
-          label: Text(_getTabName(f.index)),
+          label: Text(
+            _getTabName(f.index),
+            style: const TextStyle(fontSize: 14),
+          ),
           selectedColor: const Color(0xFFCBE2F6),
           selected: _selectTypes.contains(f),
           onSelected: (value) {

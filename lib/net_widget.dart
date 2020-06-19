@@ -209,7 +209,7 @@ class _NetWidgetState extends State<NetWidget> {
     _Net.types.forEach((f) {
       arr.add(
         ChoiceChip(
-          label: Text(f),
+          label: Text(f, style: const TextStyle(fontSize: 14)),
           selectedColor: const Color(0xFFCBE2F6),
           selected: _selectTypes.contains(f),
           onSelected: (value) {
