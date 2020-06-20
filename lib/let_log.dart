@@ -78,6 +78,7 @@ class Logger extends StatelessWidget {
               Tab(child: Text("Net")),
             ],
           ),
+          elevation: 0,
         ),
         body: const TabBarView(
           children: [
@@ -130,14 +131,16 @@ class Logger extends StatelessWidget {
   }
 
   /// Recording network information
-  static void net(String api, {String type = "Http", Object data}) {
+  static void net(String api,
+      {String type = "Http", int status = 100, Object data}) {
     assert(api != null);
-    if (enabled) _Net.request(api, type, data);
+    if (enabled) _Net.request(api, type, status, data);
   }
 
   /// End of record network information, with statistics on duration and size.
   static void endNet(String api,
       {int status = 200, Object data, Object head, String type}) {
+    assert(api != null);
     if (enabled) _Net.response(api, status, data, head, type);
   }
 }
@@ -252,6 +255,7 @@ class _Net extends ChangeNotifier {
     this.start,
     this.res,
     this.spend = 0,
+    this.status = 100,
   });
 
   int getReqSize() {
@@ -297,10 +301,11 @@ class _Net extends ChangeNotifier {
     return sb.toString();
   }
 
-  static void request(String api, String type, Object data) {
+  static void request(String api, String type, int status, Object data) {
     final net = _Net(
       api: api,
       type: type,
+      status: status,
       req: data?.toString(),
       start: DateTime.now(),
     );
