@@ -25,8 +25,8 @@ Logger.error("this is error", "this is a error message");
 
 // test error
 try {
-  final aa = {};
-  aa["aaa"]["sdd"] = 10;
+  final test = {};
+  test["test"]["test"] = 1;
 } catch (a, e) {
   Logger.error(a, e);
 }
@@ -76,7 +76,7 @@ Logger.endNet(
 
 ```dart
 Widget build(BuildContext context) {
-    return Logger();
+  return Logger();
 }
 ```
 
@@ -99,27 +99,31 @@ Widget build(BuildContext context) {
 自定义分类名称
 
 ```dart
-//setting
+// 个性设置
 Logger.enabled = false;
-Logger.config.maxLimit = 10;
+Logger.config.maxLimit = 50;
 Logger.config.reverse = true;
-Logger.config.printLog = true;
-Logger.config.printNet = true;
+Logger.config.printLog = false;
+Logger.config.printNet = false;
+
+// 设置在ide内打印的名称，可以使用表情
 Logger.config.setPrintNames(
-    log: "😄",
-    debug: "🐛",
-    warn: "❗",
-    error: "❌",
-    request: "⬆️",
-    response: "⬇️",
+  log: "[😄Log]",
+  debug: "[🐛Debug]",
+  warn: "[❗Warn]",
+  error: "[❌Error]",
+  request: "[⬆️Req]",
+  response: "[⬇️Res]",
 );
+
+// 设置在app内显示名称，可以使用表情
 Logger.config.setTabNames(
-    log: "😄",
-    debug: "🐛",
-    warn: "❗",
-    error: "❌",
-    request: "⬆️",
-    response: "⬇️",
+  log: "😄",
+  debug: "🐛",
+  warn: "❗",
+  error: "❌",
+  request: "⬆️",
+  response: "⬇️",
 );
 ```
 

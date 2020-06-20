@@ -12,12 +12,14 @@ class _NetWidgetState extends State<NetWidget> {
   String _keyword = "";
   TextEditingController _textController;
   ScrollController _scrollController;
+  FocusNode _focusNode;
   bool _goDown = true;
 
   @override
   void initState() {
     _textController = TextEditingController(text: _keyword);
     _scrollController = ScrollController();
+    _focusNode = FocusNode();
     super.initState();
   }
 
@@ -56,12 +58,15 @@ class _NetWidgetState extends State<NetWidget> {
                   }).toList();
                 }
 
+                final len = logs.length;
                 return ListView.separated(
                   itemBuilder: (context, index) {
-                    final item = logs[index];
+                    final item = Logger.config.reverse
+                        ? logs[len - index - 1]
+                        : logs[index];
                     return _buildItem(item, context);
                   },
-                  itemCount: logs.length,
+                  itemCount: len,
                   controller: _scrollController,
                   reverse: Logger.config.reverse,
                   separatorBuilder: (context, index) {
@@ -280,6 +285,7 @@ class _NetWidgetState extends State<NetWidget> {
               onPressed: () {
                 _showSearch = true;
                 setState(() {});
+                _focusNode.requestFocus();
               },
             ),
           ],
@@ -295,6 +301,7 @@ class _NetWidgetState extends State<NetWidget> {
                     contentPadding: EdgeInsets.all(6),
                   ),
                   controller: _textController,
+                  focusNode: _focusNode,
                 ),
               ),
             ),

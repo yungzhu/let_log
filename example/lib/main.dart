@@ -28,18 +28,22 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     // setting
     // Logger.enabled = false;
-    // Logger.config.maxLimit = 10;
+    // Logger.config.maxLimit = 50;
     // Logger.config.reverse = true;
     // Logger.config.printLog = false;
     // Logger.config.printNet = false;
+
+    // Set the names in ide print, can use emoji.
     // Logger.config.setPrintNames(
-    //   log: "😄",
-    //   debug: "🐛",
-    //   warn: "❗",
-    //   error: "❌",
-    //   request: "⬆️",
-    //   response: "⬇️",
+    //   log: "[😄Log]",
+    //   debug: "[🐛Debug]",
+    //   warn: "[❗Warn]",
+    //   error: "[❌Error]",
+    //   request: "[⬆️Req]",
+    //   response: "[⬇️Res]",
     // );
+
+    // Set the names in the app, can use emoji.
     // Logger.config.setTabNames(
     //   log: "😄",
     //   debug: "🐛",
@@ -69,8 +73,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
     // test error
     try {
-      final aa = {};
-      aa["aaa"]["sdd"] = 10;
+      final test = {};
+      test["test"]["test"] = 1;
     } catch (a, e) {
       Logger.error(a, e);
     }

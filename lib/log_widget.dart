@@ -12,12 +12,14 @@ class _LogWidgetState extends State<LogWidget> {
   String _keyword = "";
   TextEditingController _textController;
   ScrollController _scrollController;
+  FocusNode _focusNode;
   bool _goDown = true;
 
   @override
   void initState() {
     _textController = TextEditingController(text: _keyword);
     _scrollController = ScrollController();
+    _focusNode = FocusNode();
     super.initState();
   }
 
@@ -47,14 +49,16 @@ class _LogWidgetState extends State<LogWidget> {
                   }).toList();
                 }
 
+                final len = logs.length;
                 return ListView.separated(
                   itemBuilder: (context, index) {
-                    final item = logs[index];
+                    final item = Logger.config.reverse
+                        ? logs[len - index - 1]
+                        : logs[index];
                     final color = _getColor(item.type, context);
                     return _buildItem(item, color);
                   },
-                  reverse: Logger.config.reverse,
-                  itemCount: logs.length,
+                  itemCount: len,
                   controller: _scrollController,
                   separatorBuilder: (context, index) {
                     return const Divider(
@@ -206,6 +210,7 @@ class _LogWidgetState extends State<LogWidget> {
               onPressed: () {
                 _showSearch = true;
                 setState(() {});
+                _focusNode.requestFocus();
               },
             ),
           ],
@@ -221,6 +226,7 @@ class _LogWidgetState extends State<LogWidget> {
                     contentPadding: EdgeInsets.all(6),
                   ),
                   controller: _textController,
+                  focusNode: _focusNode,
                 ),
               ),
             ),

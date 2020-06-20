@@ -1,6 +1,6 @@
 # let_log
 
-LetLog is a log system that supports both IDE and in-app display, and supports log and network
+LetLog is a logger that supports both IDE and in-app display, and supports log and network
 
 Language: [English](README.md) | [中文简体](README_ZH.md)
 
@@ -25,8 +25,8 @@ Logger.error("this is error", "this is a error message");
 
 // test error
 try {
-  final aa = {};
-  aa["aaa"]["sdd"] = 10;
+  final test = {};
+  test["test"]["test"] = 1;
 } catch (a, e) {
   Logger.error(a, e);
 }
@@ -76,7 +76,7 @@ Logger.endNet(
 
 ```dart
 Widget build(BuildContext context) {
-    return Logger();
+  return Logger();
 }
 ```
 
@@ -101,25 +101,29 @@ Custom category names
 ```dart
 // setting
 Logger.enabled = false;
-Logger.config.maxLimit = 10;
+Logger.config.maxLimit = 50;
 Logger.config.reverse = true;
-Logger.config.printLog = true;
-Logger.config.printNet = true;
+Logger.config.printLog = false;
+Logger.config.printNet = false;
+
+// Set the names in ide print, can use emoji.
 Logger.config.setPrintNames(
-    log: "😄",
-    debug: "🐛",
-    warn: "❗",
-    error: "❌",
-    request: "⬆️",
-    response: "⬇️",
+  log: "[😄Log]",
+  debug: "[🐛Debug]",
+  warn: "[❗Warn]",
+  error: "[❌Error]",
+  request: "[⬆️Req]",
+  response: "[⬇️Res]",
 );
+
+// Set the names in the app, can use emoji.
 Logger.config.setTabNames(
-    log: "😄",
-    debug: "🐛",
-    warn: "❗",
-    error: "❌",
-    request: "⬆️",
-    response: "⬇️",
+  log: "😄",
+  debug: "🐛",
+  warn: "❗",
+  error: "❌",
+  request: "⬆️",
+  response: "⬇️",
 );
 ```
 

@@ -1,3 +1,9 @@
+## [1.1.0] - 2020-6-20
+
+-   Add up and down shortcut buttons
+
+-   Click on the search button and the input box automatically gets the focus
+
 ## [1.0.6] - 2020-6-19
 
 -   Add Configuration Options

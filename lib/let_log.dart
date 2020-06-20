@@ -1,7 +1,6 @@
 library let_log;
 
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 part 'log_widget.dart';
@@ -17,11 +16,19 @@ String _getTabName(int index) {
 }
 
 class _Config {
+  /// Whether to display the log in reverse order
   bool reverse = false;
+
+  /// Whether or not to print logs in the ide
   bool printNet = true;
+
+  /// Whether or not to print net logs in the ide
   bool printLog = true;
+
+  /// Maximum number of logs, larger than this number, will be cleaned up, default value 500
   int maxLimit = 500;
 
+  /// Set the names in ide print.
   void setPrintNames({
     String log,
     String debug,
@@ -40,6 +47,7 @@ class _Config {
     ];
   }
 
+  /// Set the names in the app.
   void setTabNames({
     String log,
     String debug,
@@ -84,41 +92,50 @@ class Logger extends StatelessWidget {
   static bool enabled = true;
   static _Config config = _Config();
 
+  /// Logging
   static void log(Object message, [Object detail]) {
     if (enabled) _Log.add(_Type.log, message, detail);
   }
 
+  /// Record debug information
   static void debug(Object message, [Object detail]) {
     if (enabled) _Log.add(_Type.debug, message, detail);
   }
 
+  /// Record warnning information
   static void warn(Object message, [Object detail]) {
     if (enabled) _Log.add(_Type.warn, message, detail);
   }
 
+  /// Record error information
   static void error(Object message, [Object detail]) {
     if (enabled) _Log.add(_Type.error, message, detail);
   }
 
+  /// Start recording time
   static void time(Object key) {
     assert(key != null);
     if (enabled) _Log.time(key);
   }
 
+  /// End of record time
   static void endTime(Object key) {
     assert(key != null);
     if (enabled) _Log.endTime(key);
   }
 
+  /// Clearance log
   static void clear() {
     _Log.clear();
   }
 
+  /// Recording network information
   static void net(String api, {String type = "Http", Object data}) {
     assert(api != null);
     if (enabled) _Net.request(api, type, data);
   }
 
+  /// End of record network information, with statistics on duration and size.
   static void endNet(String api,
       {int status = 200, Object data, Object head, String type}) {
     if (enabled) _Net.response(api, status, data, head, type);
