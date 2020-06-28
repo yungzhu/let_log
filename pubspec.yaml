@@ -1,6 +1,6 @@
 name: let_log
 description: LetLog is a logger that supports both IDE and in-app display, and supports log and network.
-version: 1.1.1
+version: 1.1.2
 homepage: https://github.com/yungzhu/let_log
 
 environment:

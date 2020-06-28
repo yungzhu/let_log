@@ -139,9 +139,9 @@ class Logger extends StatelessWidget {
 
   /// End of record network information, with statistics on duration and size.
   static void endNet(String api,
-      {int status = 200, Object data, Object head, String type}) {
+      {int status = 200, Object data, Object headers, String type}) {
     assert(api != null);
-    if (enabled) _Net.response(api, status, data, head, type);
+    if (enabled) _Net.response(api, status, data, headers, type);
   }
 }
 
@@ -242,7 +242,7 @@ class _Net extends ChangeNotifier {
   int status = 100;
   int spend = 0;
   String res;
-  String head;
+  String headers;
   bool showDetail = false;
   int _reqSize = -1;
   int _resSize = -1;
@@ -251,7 +251,7 @@ class _Net extends ChangeNotifier {
     this.api,
     this.type,
     this.req,
-    this.head,
+    this.headers,
     this.start,
     this.res,
     this.spend = 0,
@@ -293,9 +293,9 @@ class _Net extends ChangeNotifier {
   String toString() {
     final StringBuffer sb = StringBuffer();
     sb.writeln("[$status] $api");
-    sb.writeln("start: $start");
-    sb.writeln("spend: $spend ms");
-    sb.writeln("Head: $head");
+    sb.writeln("Start: $start");
+    sb.writeln("Spend: $spend ms");
+    sb.writeln("Headers: $headers");
     sb.writeln("Request: $req");
     sb.writeln("Response: $res");
     return sb.toString();
@@ -330,19 +330,19 @@ class _Net extends ChangeNotifier {
   }
 
   static void response(
-      String api, int status, Object data, Object head, String type) {
+      String api, int status, Object data, Object headers, String type) {
     _Net net = _map[api];
     if (net != null) {
       _map.remove(net);
       net.spend = DateTime.now().difference(net.start).inMilliseconds;
       net.status = status;
-      net.head = head?.toString();
+      net.headers = headers?.toString();
       net.res = data?.toString();
       length.notifyListeners();
     } else {
       net = _Net(api: api, start: DateTime.now(), type: type);
       net.status = status;
-      net.head = head?.toString();
+      net.headers = headers?.toString();
       net.res = data?.toString();
       list.add(net);
       _clearWhenTooMuch();

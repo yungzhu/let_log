@@ -147,11 +147,11 @@ class _NetWidgetState extends State<NetWidget> {
                         style: const TextStyle(fontSize: 14),
                       ),
                     ),
-                  if (item.showDetail && item.head != null)
+                  if (item.showDetail && item.headers != null)
                     Padding(
                       padding: const EdgeInsets.only(top: 8),
                       child: Text(
-                        "Head: ${item.head ?? ""}",
+                        "Headers: ${item.headers ?? ""}",
                         maxLines: 100,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(fontSize: 14),

@@ -1,3 +1,7 @@
+## [1.1.2] - 2020-6-28
+
+-   Modify head to headers
+
 ## [1.1.1] - 2020-6-20
 
 -   Add up and down shortcut buttons
