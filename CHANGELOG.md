@@ -1,6 +1,8 @@
-## [1.1.2] - 2020-6-28
+## [1.1.3] - 2020-6-29
 
 -   Modify head to headers
+
+-   Adjust the spacing to make it look better
 
 ## [1.1.1] - 2020-6-20
 

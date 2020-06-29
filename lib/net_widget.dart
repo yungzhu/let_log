@@ -270,7 +270,7 @@ class _NetWidgetState extends State<NetWidget> {
           children: [
             Expanded(
               child: Wrap(
-                spacing: 10,
+                spacing: 5,
                 children: arr,
               ),
             ),

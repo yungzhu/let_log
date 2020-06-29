@@ -195,7 +195,7 @@ class _LogWidgetState extends State<LogWidget> {
           children: [
             Expanded(
               child: Wrap(
-                spacing: 10,
+                spacing: 5,
                 children: arr,
               ),
             ),
