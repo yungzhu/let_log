@@ -162,7 +162,7 @@ class _NetWidgetState extends State<NetWidget> {
                     child: Row(
                       children: [
                         SizedBox(
-                          width: 100,
+                          width: 120,
                           child: Text(
                             "${item.start.hour}:${item.start.minute}:${item.start.second}:${item.start.millisecond}",
                             style: const TextStyle(fontSize: 14),

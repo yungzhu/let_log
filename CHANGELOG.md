@@ -1,3 +1,7 @@
+## [1.1.4] - 2020-8-19
+
+-   Adjusting the net log display spacing
+
 ## [1.1.3] - 2020-6-29
 
 -   Modify head to headers
