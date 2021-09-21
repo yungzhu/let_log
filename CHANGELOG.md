@@ -1,3 +1,7 @@
+## [1.1.5] - 2021-9-22
+
+- Migrating to null safety
+
 ## [1.1.4] - 2020-8-19
 
 -   Adjusting the net log display spacing

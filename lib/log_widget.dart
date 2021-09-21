@@ -1,7 +1,7 @@
 part of let_log;
 
 class LogWidget extends StatefulWidget {
-  const LogWidget({Key key}) : super(key: key);
+  const LogWidget({Key? key}) : super(key: key);
 
   @override
   _LogWidgetState createState() => _LogWidgetState();
@@ -10,9 +10,9 @@ class LogWidget extends StatefulWidget {
 class _LogWidgetState extends State<LogWidget> {
   bool _showSearch = false;
   String _keyword = "";
-  TextEditingController _textController;
-  ScrollController _scrollController;
-  FocusNode _focusNode;
+  TextEditingController? _textController;
+  ScrollController? _scrollController;
+  FocusNode? _focusNode;
   bool _goDown = true;
 
   @override
@@ -25,8 +25,8 @@ class _LogWidgetState extends State<LogWidget> {
 
   @override
   void dispose() {
-    _textController.dispose();
-    _scrollController.dispose();
+    _textController!.dispose();
+    _scrollController!.dispose();
     super.dispose();
   }
 
@@ -76,13 +76,13 @@ class _LogWidgetState extends State<LogWidget> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (_goDown) {
-            _scrollController.animateTo(
-              _scrollController.position.maxScrollExtent * 2,
+            _scrollController!.animateTo(
+              _scrollController!.position.maxScrollExtent * 2,
               curve: Curves.easeOut,
               duration: const Duration(milliseconds: 300),
             );
           } else {
-            _scrollController.animateTo(
+            _scrollController!.animateTo(
               0,
               curve: Curves.easeOut,
               duration: const Duration(milliseconds: 300),
@@ -99,7 +99,7 @@ class _LogWidgetState extends State<LogWidget> {
     );
   }
 
-  Widget _buildItem(_Log item, Color color) {
+  Widget _buildItem(_Log item, Color? color) {
     return InkWell(
       onTap: () {
         final ClipboardData data = ClipboardData(text: item.toString());
@@ -126,14 +126,14 @@ class _LogWidgetState extends State<LogWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "${item.tabName} ${item.message} (${item.start.hour}:${item.start.minute}:${item.start.second}:${item.start.millisecond})",
+              "${item.tabName} ${item.message} (${item.start!.hour}:${item.start!.minute}:${item.start!.second}:${item.start!.millisecond})",
               style: TextStyle(fontSize: 16, color: color),
             ),
             if (item.detail != null)
               Padding(
                 padding: const EdgeInsets.only(top: 8),
                 child: Text(
-                  item.detail,
+                  item.detail!,
                   style: TextStyle(fontSize: 14, color: color),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 20,
@@ -145,7 +145,7 @@ class _LogWidgetState extends State<LogWidget> {
     );
   }
 
-  Color _getColor(_Type type, BuildContext context) {
+  Color? _getColor(_Type? type, BuildContext context) {
     switch (type) {
       case _Type.debug:
         return Colors.blue;
@@ -154,7 +154,7 @@ class _LogWidgetState extends State<LogWidget> {
       case _Type.error:
         return Colors.red;
       default:
-        return Theme.of(context).textTheme.bodyText1.color;
+        return Theme.of(context).textTheme.bodyText1!.color;
     }
   }
 
@@ -210,7 +210,7 @@ class _LogWidgetState extends State<LogWidget> {
               onPressed: () {
                 _showSearch = true;
                 setState(() {});
-                _focusNode.requestFocus();
+                _focusNode!.requestFocus();
               },
             ),
           ],
@@ -234,7 +234,7 @@ class _LogWidgetState extends State<LogWidget> {
               icon: const Icon(Icons.search),
               onPressed: () {
                 _showSearch = false;
-                _keyword = _textController.text;
+                _keyword = _textController!.text;
                 setState(() {});
               },
             ),

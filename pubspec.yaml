@@ -1,10 +1,10 @@
 name: let_log
 description: LetLog is a logger that supports both IDE and in-app display, and supports log and network.
-version: 1.1.4
+version: 1.1.5
 homepage: https://github.com/yungzhu/let_log
 
 environment:
-    sdk: ">=2.7.0 <3.0.0"
+    sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
     flutter:
