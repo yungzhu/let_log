@@ -8,7 +8,8 @@ class LogWidget extends StatefulWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(ObjectFlagProperty<Function(List<_Log> logs)?>.has('onSavePressed', onSavePressed));
+    properties.add(ObjectFlagProperty<Function(List<_Log> logs)?>.has(
+        'onSavePressed', onSavePressed));
   }
 }
 
@@ -82,13 +83,17 @@ class _LogWidgetState extends State<LogWidget> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton.extended(
+            heroTag: 'save1',
             onPressed: () {
-              widget.onSavePressed!(_Log.list);
+              if (widget.onSavePressed != null) {
+                widget.onSavePressed!(_Log.list);
+              }
             },
             label: const Text("Save to device"),
             icon: const Icon(Icons.save),
           ),
           FloatingActionButton(
+            heroTag: 'down1',
             onPressed: () {
               if (_goDown) {
                 _scrollController!.animateTo(

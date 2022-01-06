@@ -91,13 +91,17 @@ class _NetWidgetState extends State<NetWidget> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton.extended(
+            heroTag: 'save2',
             onPressed: () {
-              widget.onSavePressed!(_Log.list);
+              if(widget.onSavePressed != null) {
+                widget.onSavePressed!(_Log.list);
+              }
             },
             label: const Text("Save to device"),
             icon: const Icon(Icons.save),
           ),
           FloatingActionButton(
+            heroTag: 'down2',
             onPressed: () {
               if (_goDown) {
                 _scrollController!.animateTo(
