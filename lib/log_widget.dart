@@ -1,10 +1,15 @@
 part of let_log;
 
 class LogWidget extends StatefulWidget {
-  const LogWidget({Key? key}) : super(key: key);
-
+  const LogWidget({Key? key, this.onSavePressed}) : super(key: key);
+  final Function(List<_Log> logs)? onSavePressed;
   @override
   _LogWidgetState createState() => _LogWidgetState();
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(ObjectFlagProperty<Function(List<_Log> logs)?>.has('onSavePressed', onSavePressed));
+  }
 }
 
 class _LogWidgetState extends State<LogWidget> {
@@ -73,28 +78,40 @@ class _LogWidgetState extends State<LogWidget> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if (_goDown) {
-            _scrollController!.animateTo(
-              _scrollController!.position.maxScrollExtent * 2,
-              curve: Curves.easeOut,
-              duration: const Duration(milliseconds: 300),
-            );
-          } else {
-            _scrollController!.animateTo(
-              0,
-              curve: Curves.easeOut,
-              duration: const Duration(milliseconds: 300),
-            );
-          }
-          _goDown = !_goDown;
-          setState(() {});
-        },
-        mini: true,
-        child: Icon(
-          _goDown ? Icons.arrow_downward : Icons.arrow_upward,
-        ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton.extended(
+            onPressed: () {
+              widget.onSavePressed!(_Log.list);
+            },
+            label: const Text("Save to device"),
+            icon: const Icon(Icons.save),
+          ),
+          FloatingActionButton(
+            onPressed: () {
+              if (_goDown) {
+                _scrollController!.animateTo(
+                  _scrollController!.position.maxScrollExtent * 2,
+                  curve: Curves.easeOut,
+                  duration: const Duration(milliseconds: 300),
+                );
+              } else {
+                _scrollController!.animateTo(
+                  0,
+                  curve: Curves.easeOut,
+                  duration: const Duration(milliseconds: 300),
+                );
+              }
+              _goDown = !_goDown;
+              setState(() {});
+            },
+            mini: true,
+            child: Icon(
+              _goDown ? Icons.arrow_downward : Icons.arrow_upward,
+            ),
+          ),
+        ],
       ),
     );
   }

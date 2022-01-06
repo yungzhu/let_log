@@ -71,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // error
     Logger.error("this is error", "this is a error message");
 
-    // test error
+   // test error
     try {
       final test = {};
       test["test"]["test"] = 1;
@@ -116,6 +116,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Logger();
+    return Logger(
+      onSavePressed: (p0) {
+        print(p0);
+      },
+    );
   }
 }
