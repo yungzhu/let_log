@@ -2,14 +2,14 @@ part of let_log;
 
 class LogWidget extends StatefulWidget {
   const LogWidget({Key? key, this.onSavePressed}) : super(key: key);
-  final Function(List<_Log> logs, List<_Net> list)? onSavePressed;
+  final Function(List<_Log> logs, List<_Net> netlogs)? onSavePressed;
   @override
   _LogWidgetState createState() => _LogWidgetState();
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties.add(
-        ObjectFlagProperty<Function(List<_Log> logs, List<_Net> list)?>.has(
+        ObjectFlagProperty<Function(List<_Log> logs, List<_Net> netlogs)?>.has(
             'onSavePressed', onSavePressed));
   }
 }

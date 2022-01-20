@@ -2,14 +2,14 @@ part of let_log;
 
 class NetWidget extends StatefulWidget {
   const NetWidget({Key? key, this.onSavePressed}) : super(key: key);
-  final Function(List<_Log> logs, List<_Net> list)? onSavePressed;
+  final Function(List<_Log> logs, List<_Net> netlogs)? onSavePressed;
   @override
   _NetWidgetState createState() => _NetWidgetState();
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties.add(
-        ObjectFlagProperty<Function(List<_Log> logs, List<_Net> list)?>.has(
+        ObjectFlagProperty<Function(List<_Log> logs, List<_Net> netlogs)?>.has(
             'onSavePressed', onSavePressed));
   }
 }
