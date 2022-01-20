@@ -103,6 +103,11 @@ class Logger extends StatelessWidget {
   static bool enabled = true;
   static _Config config = _Config();
 
+  ///get all logs
+  static List getAllLogs() {
+    return [_Log.list, _Net.list];
+  }
+
   /// Logging
   static void log(Object message, [Object? detail]) {
     if (enabled) _Log.add(_Type.log, message, detail);
