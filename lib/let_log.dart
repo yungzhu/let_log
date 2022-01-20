@@ -71,7 +71,7 @@ class _Config {
 
 class Logger extends StatelessWidget {
   const Logger({Key? key, this.onSavePressed}) : super(key: key);
-  final Function(List<_Log> logs, List<_Net> list)? onSavePressed;
+  final Function(List<_Log> logs, List<_Net> netlogs)? onSavePressed;
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -159,7 +159,7 @@ class Logger extends StatelessWidget {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties.add(
-        ObjectFlagProperty<Function(List<_Log> logs, List<_Net> list)?>.has(
+        ObjectFlagProperty<Function(List<_Log> logs, List<_Net> netlogs)?>.has(
             'onSavePressed', onSavePressed));
   }
 }
