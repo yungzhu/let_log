@@ -54,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // );
 
     _test(null);
-    Timer.periodic(const Duration(seconds: 5), _test);
+    // Timer.periodic(const Duration(seconds: 5), _test);
     super.initState();
   }
 
@@ -71,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // error
     Logger.error("this is error", "this is a error message");
 
-   // test error
+    // test error
     // try {
     //   final test = {};
     //   test["test"]["test"] = 1;
@@ -116,8 +116,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Logger(
-      
+    return Logger(
+      onSavePressed: (logs, list) {
+        print("onSavePressed");
+        print(logs);
+        print(list);
+      },
     );
   }
 }

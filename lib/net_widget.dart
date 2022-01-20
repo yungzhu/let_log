@@ -2,13 +2,15 @@ part of let_log;
 
 class NetWidget extends StatefulWidget {
   const NetWidget({Key? key, this.onSavePressed}) : super(key: key);
-  final Function(List<_Log> logs)? onSavePressed;
+  final Function(List<_Log> logs, List<_Net> list)? onSavePressed;
   @override
   _NetWidgetState createState() => _NetWidgetState();
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(ObjectFlagProperty<Function(List<_Log> logs)?>.has('onSavePressed', onSavePressed));
+    properties.add(
+        ObjectFlagProperty<Function(List<_Log> logs, List<_Net> list)?>.has(
+            'onSavePressed', onSavePressed));
   }
 }
 
@@ -93,8 +95,8 @@ class _NetWidgetState extends State<NetWidget> {
           FloatingActionButton.extended(
             heroTag: 'save2',
             onPressed: () {
-              if(widget.onSavePressed != null) {
-                widget.onSavePressed!(_Log.list);
+              if (widget.onSavePressed != null) {
+                widget.onSavePressed!(_Log.list,_Net.list);
               }
             },
             label: const Text("Save to device"),

@@ -2,14 +2,15 @@ part of let_log;
 
 class LogWidget extends StatefulWidget {
   const LogWidget({Key? key, this.onSavePressed}) : super(key: key);
-  final Function(List<_Log> logs)? onSavePressed;
+  final Function(List<_Log> logs, List<_Net> list)? onSavePressed;
   @override
   _LogWidgetState createState() => _LogWidgetState();
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(ObjectFlagProperty<Function(List<_Log> logs)?>.has(
-        'onSavePressed', onSavePressed));
+    properties.add(
+        ObjectFlagProperty<Function(List<_Log> logs, List<_Net> list)?>.has(
+            'onSavePressed', onSavePressed));
   }
 }
 
@@ -86,7 +87,7 @@ class _LogWidgetState extends State<LogWidget> {
             heroTag: 'save1',
             onPressed: () {
               if (widget.onSavePressed != null) {
-                widget.onSavePressed!(_Log.list);
+                widget.onSavePressed!(_Log.list, _Net.list);
               }
             },
             label: const Text("Save to device"),
