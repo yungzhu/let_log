@@ -116,12 +116,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Logger(
-      onSavePressed: (logs, list) {
-        print("onSavePressed");
-        print(logs);
-        print(list);
-      },
-    );
+    return const Logger();
   }
 }
