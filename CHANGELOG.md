@@ -1,3 +1,11 @@
+## [1.2.1] - 2022-2-25
+
+-Fixed dependency
+
+## [1.2.0] - 2022-2-25
+
+-Added bottom space to listview
+
 ## [1.1.5] - 2021-9-22
 
 - Migrating to null safety
