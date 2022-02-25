@@ -67,6 +67,8 @@ class _NetWidgetState extends State<NetWidget> {
 
                 final len = logs.length;
                 return ListView.separated(
+                  padding: const EdgeInsets.only(
+                      bottom: kFloatingActionButtonMargin + 48),
                   itemBuilder: (context, index) {
                     final item = Logger.config.reverse
                         ? logs[len - index - 1]
@@ -96,7 +98,7 @@ class _NetWidgetState extends State<NetWidget> {
             heroTag: 'save2',
             onPressed: () {
               if (widget.onSavePressed != null) {
-                widget.onSavePressed!(_Log.list,_Net.list);
+                widget.onSavePressed!(_Log.list, _Net.list);
               }
             },
             label: const Text("Save to device"),

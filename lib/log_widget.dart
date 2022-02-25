@@ -58,6 +58,8 @@ class _LogWidgetState extends State<LogWidget> {
 
                 final len = logs.length;
                 return ListView.separated(
+                  padding: const EdgeInsets.only(
+                      bottom: kFloatingActionButtonMargin + 48),
                   itemBuilder: (context, index) {
                     final item = Logger.config.reverse
                         ? logs[len - index - 1]
