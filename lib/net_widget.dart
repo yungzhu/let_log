@@ -1,10 +1,17 @@
 part of let_log;
 
 class NetWidget extends StatefulWidget {
-  const NetWidget({Key? key}) : super(key: key);
-
+  const NetWidget({Key? key, this.onSavePressed}) : super(key: key);
+  final Function(List<_Log> logs, List<_Net> netlogs)? onSavePressed;
   @override
   _NetWidgetState createState() => _NetWidgetState();
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(
+        ObjectFlagProperty<Function(List<_Log> logs, List<_Net> netlogs)?>.has(
+            'onSavePressed', onSavePressed));
+  }
 }
 
 class _NetWidgetState extends State<NetWidget> {
@@ -60,6 +67,8 @@ class _NetWidgetState extends State<NetWidget> {
 
                 final len = logs.length;
                 return ListView.separated(
+                  padding: const EdgeInsets.only(
+                      bottom: kFloatingActionButtonMargin + 48),
                   itemBuilder: (context, index) {
                     final item = Logger.config.reverse
                         ? logs[len - index - 1]
@@ -82,28 +91,44 @@ class _NetWidgetState extends State<NetWidget> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if (_goDown) {
-            _scrollController!.animateTo(
-              _scrollController!.position.maxScrollExtent * 2,
-              curve: Curves.easeOut,
-              duration: const Duration(milliseconds: 300),
-            );
-          } else {
-            _scrollController!.animateTo(
-              0,
-              curve: Curves.easeOut,
-              duration: const Duration(milliseconds: 300),
-            );
-          }
-          _goDown = !_goDown;
-          setState(() {});
-        },
-        mini: true,
-        child: Icon(
-          _goDown ? Icons.arrow_downward : Icons.arrow_upward,
-        ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton.extended(
+            heroTag: 'save2',
+            onPressed: () {
+              if (widget.onSavePressed != null) {
+                widget.onSavePressed!(_Log.list, _Net.list);
+              }
+            },
+            label: const Text("Save to device"),
+            icon: const Icon(Icons.save),
+          ),
+          FloatingActionButton(
+            heroTag: 'down2',
+            onPressed: () {
+              if (_goDown) {
+                _scrollController!.animateTo(
+                  _scrollController!.position.maxScrollExtent * 2,
+                  curve: Curves.easeOut,
+                  duration: const Duration(milliseconds: 300),
+                );
+              } else {
+                _scrollController!.animateTo(
+                  0,
+                  curve: Curves.easeOut,
+                  duration: const Duration(milliseconds: 300),
+                );
+              }
+              _goDown = !_goDown;
+              setState(() {});
+            },
+            mini: true,
+            child: Icon(
+              _goDown ? Icons.arrow_downward : Icons.arrow_upward,
+            ),
+          ),
+        ],
       ),
     );
   }

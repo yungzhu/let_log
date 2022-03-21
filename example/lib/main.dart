@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:let_log/let_log.dart';
@@ -54,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // );
 
     _test(null);
-    Timer.periodic(const Duration(seconds: 5), _test);
+    // Timer.periodic(const Duration(seconds: 5), _test);
     super.initState();
   }
 
@@ -72,12 +71,12 @@ class _MyHomePageState extends State<MyHomePage> {
     Logger.error("this is error", "this is a error message");
 
     // test error
-    try {
-      final test = {};
-      test["test"]["test"] = 1;
-    } catch (a, e) {
-      Logger.error(a, e);
-    }
+    // try {
+    //   final test = {};
+    //   test["test"]["test"] = 1;
+    // } catch (a, e) {
+    //   Logger.error(a, e);
+    // }
 
     // time test
     Logger.time("timeTest");
@@ -116,6 +115,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Logger();
+    return const Logger();
   }
 }
