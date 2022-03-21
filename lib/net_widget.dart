@@ -1,7 +1,7 @@
 part of let_log;
 
 class NetWidget extends StatefulWidget {
-  const NetWidget({Key key}) : super(key: key);
+  const NetWidget({Key? key}) : super(key: key);
 
   @override
   _NetWidgetState createState() => _NetWidgetState();
@@ -10,9 +10,9 @@ class NetWidget extends StatefulWidget {
 class _NetWidgetState extends State<NetWidget> {
   bool _showSearch = false;
   String _keyword = "";
-  TextEditingController _textController;
-  ScrollController _scrollController;
-  FocusNode _focusNode;
+  TextEditingController? _textController;
+  ScrollController? _scrollController;
+  FocusNode? _focusNode;
   bool _goDown = true;
 
   @override
@@ -25,8 +25,8 @@ class _NetWidgetState extends State<NetWidget> {
 
   @override
   void dispose() {
-    _textController.dispose();
-    _scrollController.dispose();
+    _textController!.dispose();
+    _scrollController!.dispose();
     super.dispose();
   }
 
@@ -85,13 +85,13 @@ class _NetWidgetState extends State<NetWidget> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (_goDown) {
-            _scrollController.animateTo(
-              _scrollController.position.maxScrollExtent * 2,
+            _scrollController!.animateTo(
+              _scrollController!.position.maxScrollExtent * 2,
               curve: Curves.easeOut,
               duration: const Duration(milliseconds: 300),
             );
           } else {
-            _scrollController.animateTo(
+            _scrollController!.animateTo(
               0,
               curve: Curves.easeOut,
               duration: const Duration(milliseconds: 300),
@@ -164,7 +164,7 @@ class _NetWidgetState extends State<NetWidget> {
                         SizedBox(
                           width: 120,
                           child: Text(
-                            "${item.start.hour}:${item.start.minute}:${item.start.second}:${item.start.millisecond}",
+                            "${item.start!.hour}:${item.start!.minute}:${item.start!.second}:${item.start!.millisecond}",
                             style: const TextStyle(fontSize: 14),
                             maxLines: 1,
                           ),
@@ -172,7 +172,7 @@ class _NetWidgetState extends State<NetWidget> {
                         SizedBox(
                           width: 100,
                           child: Text(
-                            "${item.spend ?? "0"} ms",
+                            "${item.spend} ms",
                             style: const TextStyle(fontSize: 14),
                             overflow: TextOverflow.visible,
                             maxLines: 1,
@@ -285,7 +285,7 @@ class _NetWidgetState extends State<NetWidget> {
               onPressed: () {
                 _showSearch = true;
                 setState(() {});
-                _focusNode.requestFocus();
+                _focusNode!.requestFocus();
               },
             ),
           ],
@@ -309,7 +309,7 @@ class _NetWidgetState extends State<NetWidget> {
               icon: const Icon(Icons.search),
               onPressed: () {
                 _showSearch = false;
-                _keyword = _textController.text;
+                _keyword = _textController!.text;
                 setState(() {});
               },
             ),
